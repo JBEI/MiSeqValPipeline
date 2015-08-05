@@ -1,0 +1,253 @@
+#!/usr/bin/env perl
+use strict;
+use Getopt::Long;
+use Pod::Usage;
+use Data::Alias;
+use File::Basename;
+
+# TODO: base guesses on 20% or more of reads being in
+#       some category ( sanger>sol>ill )
+#       or some amount that makes sense
+#
+#       quit building and passing arrays if verbosity isn't 2
+#
+
+my ( $verbose, $limit, $filetype, $help );
+
+$verbose = 0;
+$limit   = 10000;
+
+GetOptions( 
+  'num=i'     => \$limit,
+  'verbose:1' => \$verbose,
+  'help'      => \$help,
+  'type=s'    => \$filetype,
+);
+
+my $file = shift;
+
+if ( ! defined $file || ( $file ne '-' && ! -e $file ) || ( $file eq '-' && ! defined $filetype )
+    || ( defined $filetype && ( $filetype ne 'bam' && $filetype ne 'fastq' && $filetype ne 'sam' && $filetype ne 'bfq' ) ) ) {
+  my $bin = basename $0;
+  print STDERR "\n$bin [options] file\n\n";
+  print STDERR " -type     STRING    bam, bfq, sam or fastq, required for pipe read.\n";
+  print STDERR "                     guess based on extension ( fq[.gz,bz2], fastq[.gz,.bz2], bam, bfq, sam[.gz,.bz2] )\n";
+  print STDERR " -verbose  INT       1 = report counts, 2 = print quals for some of each ( for debugging )\n";
+  print STDERR " -num      INT       number of reads to sample ( $limit )\n";
+  print STDERR "\n";
+  print STDERR " option -type is required for reading from a pipe ( cat my.fq | $bin -type fastq - )\n";
+  print STDERR " if piping bam use sam format ( samtools view my.bam | $bin - )\n";
+  exit;
+}
+
+# not checking between solexa and illumiina
+
+if ( ! defined $filetype && $file ne '-' ) {
+  $filetype = $file =~ /[.]bam$/       ? 'bam'
+            : $file =~ /[.]sam$/       ? 'sam'
+            : $file =~ /[.]sam.bz2$/   ? 'sam'
+            : $file =~ /[.]sam.gz$/    ? 'sam'
+            : $file =~ /[.]fq$/        ? 'fastq'
+            : $file =~ /[.]fq.bz2$/    ? 'fastq'
+            : $file =~ /[.]fq.gz$/     ? 'fastq'
+            : $file =~ /[.]fastq$/     ? 'fastq'
+            : $file =~ /[.]fastq.bz2$/ ? 'fastq'
+            : $file =~ /[.]fastq.gz$/  ? 'fastq'
+            : $file =~ /[.]bfq$/       ? 'bfq'
+            : '';
+}
+            
+my $fh;
+
+if ( $file eq '-' ) { # expect sam
+  $fh = \*STDIN;
+}
+elsif ( $filetype eq 'bam' ) {
+  bopen( $fh, $file ) or die $!;
+}
+elsif ( $filetype eq 'sam' ) {
+  zopen( $fh, $file ) or die $!; 
+}
+elsif( $filetype eq 'fastq' ) {
+  zopen( $fh, $file ) or die $!;
+}
+elsif ( $filetype eq 'bfq' ) {
+  bfqopen( $fh, $file ) or die $!;
+}
+else {
+  warn "ERROR: don't know if this is a bam, sam, fastq or bfq, exiting\n"; # shouldn't reach here.
+  exit;
+}
+sub bopen{
+  alias my ( $fh, $file ) = @_;
+  #
+  # TODO: ? add uncompressed bam vs compressed bam etc?
+ 
+  my $open = "samtools view $file |";
+ 
+  return( open( $fh, $open ) );
+}
+
+sub zopen{
+  alias my ( $fh, $file ) = @_;
+
+  my $open = $file =~ /[.]gz$/  ? "gzip  -cd $file |"
+           : $file =~ /[.]bz2$/ ? "bzip2 -cd $file |" 
+           : $file;
+
+  return( open( $fh, $open ) );
+}
+sub bfqopen{
+  alias my ( $fh, $file ) = @_;
+ 
+  my $open = "maq bfq2fastq $file - |";
+ 
+  return( open( $fh, $open ) );
+}
+
+my $ill;
+my $count = 0;
+
+my $unknown = 'unknown';
+my $type    = $unknown;
+my $solexa  = 'solexa';
+my $sanger  = 'sanger';
+my $ill13   = 'illumina1.3-4';
+my $ill15   = 'illumina1.5-7';
+
+my %type = $filetype eq 'bam' || $filetype eq 'sam' ? read_sam( $fh, $limit ) : read_fastq( $fh, $limit );
+
+if ( ! %type ) {
+  warn "no reads found in $file";
+	exit;
+}
+sub read_sam {
+  my ( $fh, $limit ) = @_;
+  my $count = 0;
+  my %type  = ();
+  while ( <$fh> ) {
+    next if ( /^\@/ ) ; # just in case header shows up 
+  
+    my ( $name, $qual ) = (split /\t/, $_ )[ 0, 10 ];
+    categorize_read( $qual, \%type ); 
+    if ( $count++ >= $limit ) { 
+      last;
+    }
+  }
+  return %type;
+}
+sub categorize_read {
+  my ( $qual, $type_ref ) = @_;
+
+  alias my @sanger  = @{ $$type_ref{$sanger} };
+  alias my @solexa  = @{ $$type_ref{$solexa} };
+  alias my @ill13   = @{ $$type_ref{$ill13} };
+  alias my @ill15   = @{ $$type_ref{$ill15} };
+  alias my @unknown = @{ $$type_ref{$unknown} };
+  
+  if ( $qual =~ /[!-:]/ && ! ( $qual =~ /^[+]/ ) && ! ( $qual =~ /[+]$/ ) ) { # known bug with '+'
+    push @sanger, $qual;
+  }
+  elsif ( $qual =~ /[\;-\?]/ ){ # also high qual sanger
+    push @solexa, $qual;
+  }
+  elsif ( $qual =~ /[\@A]/ ) {  # also high qual sanger
+    push @ill13, $qual;
+  } 
+  elsif ( $qual =~  /[M-m]/ ) { # also VERY high qual sanger maybe, 
+    push @ill15, $qual;
+  }
+  else { 
+    push @unknown, $qual;
+  }
+}
+
+sub read_fastq{
+  my ( $fh, $limit ) = @_;
+  my $count = 0;
+  my %type  = ();
+  while ( <$fh> ) {
+    <$fh>;<$fh>;  # fast forward to quality
+    my $qual = <$fh>;  
+    categorize_read( $qual, \%type );
+    if ( $count++ >= $limit ) { 
+      last;
+    }
+  }
+  return %type;
+}
+
+my ( $top ) = sort { @{$type{$b}} <=> @{$type{$a}} } keys %type;
+my $std_count = exists $type{ $sanger }  ? scalar @{ $type{ $sanger   } } : 0;
+my $sol_count = exists $type{ $solexa }  ? scalar @{ $type{ $solexa   } } : 0;
+my $il3_count = exists $type{ $ill13 }   ? scalar @{ $type{ $ill13 } }    : 0;
+my $il5_count = exists $type{ $ill15 }   ? scalar @{ $type{ $ill15 } }    : 0;
+my $unk_count = exists $type{ $unknown } ? scalar @{ $type{ $unknown } }  : 0;
+
+# is it clearly standard or illumina?
+
+my $final_type = $std_count > $il5_count ? 'sanger'  # if no it's an ill flavor
+               : pickills( $sol_count, $il3_count, $il5_count ) ;
+
+sub pickills { # the difference between these is not worth supporting.
+	my ( $sol, $il3, $il5 ) = @_;
+	
+	return( 'solexa' );
+}
+
+#if ( ! defined $top ) {
+#	warn "no top rank for file $file\n";
+#}
+
+if ( $verbose ) {
+  my $def_ill = $il5_count;
+  print join("\t", $final_type, "def_std:$std_count", "def_ill:$def_ill", "sol_ill:$sol_count", "il3_ill:$il3_count", "il5_ill:$il5_count", "unknown:$unk_count" ), "\n";
+}
+else{
+  print "$final_type\n";
+}
+if ( $verbose > 1) {
+  for( my $i = 0; $i< 10; $i++) {
+    print "std: ${$type{ $sanger } }[ $i ]\n" if ( ${ $type{ $sanger } }[ $i ] );
+    print "sol: ${$type{ $solexa } }[ $i ]\n" if ( ${ $type{ $solexa } }[ $i ] );
+    print "il3: ${$type{ $ill13 } }[ $i ]\n"  if ( ${ $type{ $ill13 } }[ $i ] );
+    print "il5: ${$type{ $ill15 } }[ $i ]\n"  if ( ${ $type{ $ill15 } }[ $i ] );
+    print "unk: ${$type{ $unknown } }[ $i ]\n"  if ( ${ $type{ $unknown } }[ $i ] );
+  }
+}
+__END__
+
+=head1 NAME
+
+bam_guess_format - guess quality encoding from a bam file
+
+=head1 SYNOPSIS
+
+bam_guess_format [ -v ] my.bam
+ Options:
+   -verbose (or -v)   report read counts by type
+                      -v 2 adds samples of quality strings by each type found
+   -number  (or -n )  number of reads to sample, default 100,000 
+   -help              brief help message
+   -man               full documentation
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-help>
+
+Print a brief help message and exits.
+
+=item B<-man>
+
+Prints the manual page and exits.
+
+=back
+
+=head1 DESCRIPTION
+
+B<This program> scans the first X number of reads from a
+
+=cut
+

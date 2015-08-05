@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my $defline = '';
+my $seq  = '';
+
+my $fh;
+
+while (<>) {
+  if (/^\>/) {
+		my ( $id ) = split;
+		$id =~ s/^>//;
+		if ( ! defined $id ) { 
+			die "ERROR: no id to use as filename, line $. == $_";
+		}
+		$id .= '.fa';
+		open( $fh, '>', $id ) or die "ERROR: can't open file $id for writing $!";
+  }
+  print $fh $_ if ( $_ );
+}
