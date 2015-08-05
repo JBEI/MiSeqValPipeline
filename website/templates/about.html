@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   		<meta name="viewport" content="width=device-width, initial-scale=1">
+   		<!--JQUERY-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   		<!--BOOTSTRAP-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+		<title>MiSeq Sequence Validation</title>
+		<style type="text/css">
+			html {
+				position: relative;
+				min-height: 100%;
+			}
+			body {
+				/* For navbar */
+				padding-top: 60px;
+				/* Margin bottom by footer height */
+				margin-bottom: 60px;
+			}
+			.footer {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				/* Set the fixed height of the footer here */
+				height: 60px;
+				background-color: #f5f5f5;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="/">MiSeq SeqVal</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+			  <ul class="nav navbar-nav">
+				<li><a href="/about">About</a></li>
+			  </ul>
+			</div>
+		  </div>
+		</nav>
+
+		<div class="container">
+			<h2>About</h2>
+			<h4>Problem: Is the sequence we created in the lab what we wanted?</h4>
+			The Sequence Validation Pipeline takes MiSeq sequencing results, compares them to a FASTA file of reference sequences, then generates and uploads an IGV and Excel file to ICE detailing the coverage and alignment scores of your MiSeq sequence.
+			<h4>Overview of Process</h4>
+			User input => Start Pipeline => <strong>SMB Server => FASTQ.GZ => BAM => VCF, BED, Covdepth, Call_Summary.txt => IGV.XML, HTML, Excel => </strong>End Pipeline => ICE
+			<h4>Input</h4>
+			<ul>
+				<li>Main Library Name (1): Name of Folder on SMB server where your MiSeq Run is stored</li>
+				<li>Sample IDs (1+): Names of MiSeq Sample IDs whose sequences you want validated</li>
+				<li>Reference Sequence (1): ICE Entry whose sequence we are validated Samples against
+				<li>Email (1): Email will be notified when Sequence Validation Pipeline is complete and IGV/Excel files can be viewed in ICE</li>
+			</ul>
+			<h4>Contact</h4>
+			If you have any questions, please contact __.
+		</div>
+
+		<footer class="footer">
+		  <div class="container">
+			<p class="text-muted">JBEI MiSeq Sequence Validation Pipeline, 2015.</p>
+		  </div>
+		</footer>
+	</body>
+</html>

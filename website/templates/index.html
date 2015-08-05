@@ -1,0 +1,274 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+   		<meta name="viewport" content="width=device-width, initial-scale=1">
+   		<!--JQUERY-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   		<!--BOOTSTRAP-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<!--SELECT2-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
+
+		<title>MiSeq Sequence Validation</title>
+		<style type="text/css">
+			html {
+				position: relative;
+				min-height: 100%;
+			}
+			body {
+				/* For navbar */
+				padding-top: 60px;
+				/* Margin bottom by footer height */
+				margin-bottom: 60px;
+			}
+			.footer {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				/* Set the fixed height of the footer here */
+				height: 60px;
+				background-color: #f5f5f5;
+			}
+		</style>
+
+		<!--SELECT2 DROPDOWNS-->
+		<script type="text/javascript">
+			$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+			$(document).ready(function () {
+
+				//Sub Library toggle
+				$("#mainLibrary").change(function() {
+					$("#sampleIDs").select2("val", "");
+					if ($("#mainLibrary").val()!="") {
+						$("#sampleIDs-container").show();
+					}
+					else {
+						$("#sampleIDs-container").hide();
+					}
+				});
+
+				//Select 2 dropdowns
+				$("#mainLibrary").select2({
+					width: 400,
+					ajax: {
+						url: $SCRIPT_ROOT+"/return_mainlibraries",
+						type: "POST",
+						dataType: 'JSON',
+						quietMillis: 50,
+						data: function (term) {
+							return {
+								query: term, //Search term
+							};
+						},
+						results: function (data, page) { // parse the results into the format expected by Select2.
+							results = data.result;
+							return { results: results };
+						}
+					},
+					sortResults: function(results, container, query) { //Sort results alphabetically
+						if (query.term) {
+							return results.sort();
+						}
+						return results;
+					},
+					formatResult: function(library) {
+						return library.text;
+					},
+					formatSelection: function(library) {
+						return library.text;
+					}
+				});
+				$("#sampleIDs").select2({
+					width: 400,
+					multiple: true,
+					ajax: {
+						url: $SCRIPT_ROOT+"/return_sampleIDs",
+						type: "POST",
+						dataType: 'JSON',
+						quietMillis: 50,
+						data: function (term) {
+							return {
+								query: term, //Search term
+								mainLibraryFolder: $("#mainLibrary").val()
+							};
+						},
+						results: function (data, page) { // parse the results into the format expected by Select2.
+							results = data.result;
+							return { results: results };
+						}
+					},
+					sortResults: function(results, container, query) { //Sort results alphabetically
+						if (query.term) {
+							return results.sort();
+						}
+						return results;
+					},
+					formatResult: function(library) {
+						return library.text;
+					},
+					formatSelection: function(library) {
+						return library.text;
+					},
+					initSelection : function (element, callback) {
+				        var data = [];
+				        $(element.val().split(",")).each(function () {
+				            data.push({id: this, text: this});
+				        });
+				        callback(data);
+				    }
+				});
+				$("#referenceSequence").select2({
+					width: 400,
+					ajax: {
+						url: $SCRIPT_ROOT+"/return_iceEntries",
+						type: "POST",
+						dataType: 'JSON',
+						quietMillis: 50,
+						data: function (term) {
+							return {
+								query: term, //Search term
+							};
+						},
+						results: function (data, page) { // parse the results into the format expected by Select2.
+							results = data.result;
+							return { results: results };
+						}
+					},
+					sortResults: function(results, container, query) { //Sort results alphabetically
+						if (query.term) {
+							return results.sort();
+						}
+						return results;
+					},
+					formatResult: function(library) {
+						return library.text;
+					},
+					formatSelection: function(library) {
+						return library.text;
+					}
+				});
+				//Select All samples
+				$("#allSampleIDs").click(function() {
+					$.ajax({
+						url:  $SCRIPT_ROOT+"/return_sampleIDs",
+						type: "POST",
+						dataType: "JSON",
+						data: { 
+							query: "", //Get all samples
+							mainLibraryFolder: $("#mainLibrary").val()
+						}
+					})
+					.done(function(data) { //Param- variable returned by PHP file
+						var sampleNames = [];
+						data.result.forEach(function(sample) {
+							sampleNames.push(sample.text);
+						});
+						$("#sampleIDs").select2('val', sampleNames);
+					});
+				});
+
+				//Clear All samples
+				$("#clearSampleIDs").click(function() {
+					$("#sampleIDs").select2('val', '');
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="/">MiSeq SeqVal</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+			  <ul class="nav navbar-nav">
+				<li><a href="/about">About</a></li>
+			  </ul>
+			</div>
+		  </div>
+		</nav>
+
+		<div class="container">
+			<h2>MiSeq Sequence Validation Pipeline for JBEI</h2>
+
+			{% if submissionSuccess %}
+			<div class="alert alert-success alert-dismissable">Your sequence validation results are being processed for:
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<br>
+				<br><strong>{{ mainLibraryFolder }}</strong>
+				<ul>
+					{% for id in subLibraryIDs %}
+					<li>{{ id }}</li>
+					{% endfor %}
+				</ul>
+				<br>You will be emailed at {{ email }} when they are finished.
+				<br>
+				<br>Command run:
+				<br><code>{{ command }}</code>
+			</div>
+			{% endif %}
+
+			{% if submissionFailure %}
+			<div class="alert alert-warning alert-dismissable">Invalid input! Check your...
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<ul>
+				{% if emailError %}
+					<li><strong>Email</strong></li>
+				{% endif %}
+				{% if mainLibraryFolderError %}
+					<li><strong>Main Library Folder</strong></li>
+				{% endif %}
+				{% if subLibraryIDsError %}
+					<li><strong>Sample IDs</strong></li>
+				{% endif %}
+				{% if referenceSequencesError %}
+					<li><strong>Reference Sequence</strong></li>
+				{% endif %}
+				</ul>
+			</div>
+			{% endif %}
+			<hr>
+			<form class="form-horizontal" action="/run_pipeline" method="post">
+				<div class="form-group">
+					<label for="mainLibrary">Name of MiSeq Run</label>
+					<input id="mainLibrary" type="hidden" name="mainLibrary" />
+				</div>
+				<div id="sampleIDs-container" class="form-group" style="display:none;">
+					<label for="sampleIDs">Sample IDs</label>
+					<input id="sampleIDs" type="hidden" name="sampleIDs" />
+					<button id="allSampleIDs" type="button" class="btn btn-primary btn-success">All</button>
+					<button id="clearSampleIDs" type="button" class="btn btn-primary btn-danger">Clear</button>
+				</div>
+				<hr>
+				<div class="form-group">
+					<label for="referenceSequence">Reference Sequence (from ICE)</label>
+					<input id="referenceSequence" type="hidden" name="referenceSequence" />
+				</div>
+				<hr>
+				<div id="email" class="form-group">
+					<label for="email">Your Email Address</label>
+					<input id="email" type="email" class="form-control" placeholder="Used to notify you when the Pipeline is finished processing your samples" name="email" />
+				</div>
+				<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+			</form>
+		</div>
+
+		<footer class="footer">
+		  <div class="container">
+			<p class="text-muted">JBEI MiSeq Sequence Validation Pipeline, 2015.</p>
+		  </div>
+		</footer>
+	</body>
+</html>
