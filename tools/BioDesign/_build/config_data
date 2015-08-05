@@ -1,0 +1,6 @@
+do{ my $x = {
+       'conf_path' => '/etc/GeneDesign/',
+       'script_path' => '/usr/local/bin',
+       'tmp_path' => '/tmp'
+     };
+$x; }

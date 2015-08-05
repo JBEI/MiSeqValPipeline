@@ -1,0 +1,167 @@
+do{ my $x = [
+       {
+         'ARGV' => [],
+         'like_last_time' => 0
+       },
+       {},
+       {
+         'PL_files' => undef,
+         '_added_to_INC' => [],
+         'allow_mb_mismatch' => 0,
+         'allow_pureperl' => 0,
+         'auto_configure_requires' => 1,
+         'autosplit' => undef,
+         'base_dir' => '/Users/mwornow-m/desktop/seqval/tools/BioDesign',
+         'bindoc_dirs' => [
+                            'blib/script'
+                          ],
+         'blib' => 'blib',
+         'build_bat' => 0,
+         'build_class' => 'Module::Build',
+         'build_elements' => [
+                               'PL',
+                               'support',
+                               'pm',
+                               'xs',
+                               'share_dir',
+                               'pod',
+                               'script',
+                               'GeneDesign'
+                             ],
+         'build_requires' => {
+                               'Test::Deep' => '0.1',
+                               'Test::More' => '0.8'
+                             },
+         'build_script' => 'Build',
+         'bundle_inc' => [],
+         'bundle_inc_preload' => [],
+         'c_source' => undef,
+         'config' => undef,
+         'config_dir' => '_build',
+         'configure_requires' => {
+                                   'Module::Build' => '0.38'
+                                 },
+         'conflicts' => {},
+         'cpan_client' => 'cpan',
+         'create_license' => undef,
+         'create_makefile_pl' => 'traditional',
+         'create_packlist' => 1,
+         'create_readme' => undef,
+         'debug' => undef,
+         'debugger' => undef,
+         'destdir' => undef,
+         'dist_abstract' => 'Functions for the design of synthetic genes',
+         'dist_author' => [
+                            'Sarah Richardson <SMRichardson@lbl.gov>'
+                          ],
+         'dist_name' => 'Bio-GeneDesign',
+         'dist_suffix' => undef,
+         'dist_version' => '5.52',
+         'dist_version_from' => undef,
+         'dynamic_config' => 1,
+         'extra_compiler_flags' => [],
+         'extra_linker_flags' => [],
+         'extra_manify_args' => undef,
+         'get_options' => {
+                            'conf_path' => {
+                                             'store' => \'/etc/GeneDesign/',
+                                             'type' => '=s'
+                                           },
+                            'graphing_support' => {
+                                                    'store' => \0,
+                                                    'type' => '=s'
+                                                  },
+                            'like_last_time' => {
+                                                  'default' => 0,
+                                                  'store' => \0
+                                                },
+                            'script_path' => {
+                                               'store' => \'/usr/local/bin',
+                                               'type' => '=s'
+                                             },
+                            'tmp_path' => {
+                                            'store' => \'/tmp',
+                                            'type' => '=s'
+                                          }
+                          },
+         'has_config_data' => undef,
+         'html_css' => '',
+         'include_dirs' => [],
+         'install_base' => undef,
+         'install_base_relpaths' => {},
+         'install_path' => {
+                             'GeneDesign' => '/etc/GeneDesign/',
+                             'script' => '/usr/local/bin'
+                           },
+         'install_sets' => {},
+         'installdirs' => 'site',
+         'libdoc_dirs' => [
+                            'blib/lib',
+                            'blib/arch'
+                          ],
+         'license' => 'bsd',
+         'magic_number' => undef,
+         'mb_version' => '0.4214',
+         'meta_add' => {},
+         'meta_merge' => {},
+         'metafile' => 'META.yml',
+         'metafile2' => 'META.json',
+         'module_name' => 'Bio::GeneDesign',
+         'mymetafile' => 'MYMETA.yml',
+         'mymetafile2' => 'MYMETA.json',
+         'needs_compiler' => '',
+         'orig_dir' => '/Users/mwornow-m/desktop/seqval/tools/BioDesign',
+         'original_prefix' => {},
+         'perl' => '/usr/bin/perl',
+         'pm_files' => undef,
+         'pod_files' => undef,
+         'pollute' => undef,
+         'prefix' => undef,
+         'prefix_relpaths' => {},
+         'prereq_action_types' => [
+                                    'requires',
+                                    'build_requires',
+                                    'test_requires',
+                                    'conflicts',
+                                    'recommends'
+                                  ],
+         'program_name' => undef,
+         'pureperl_only' => 0,
+         'quiet' => undef,
+         'recommends' => {},
+         'recurse_into' => [],
+         'recursive_test_files' => undef,
+         'release_status' => 'stable',
+         'requires' => {
+                         'Bio::Root::Root' => 0,
+                         'Exception::Class' => 0,
+                         'List::Util' => '1.22',
+                         'Math::Combinatorics' => '0.09',
+                         'Text::Wrap' => '2009.0305',
+                         'perl' => '5.006'
+                       },
+         'script_files' => [
+                             'bin/GD_Filter_Enzymes.pl',
+                             'bin/GD_Generate_RSCU_Table.pl',
+                             'bin/GD_Graph_Dotplot.pl',
+                             'bin/GD_Juggle_Codons.pl',
+                             'bin/GD_Reverse_Translate.pl',
+                             'bin/GD_Sequence_Subtraction.pl',
+                             'bin/GD_Graph_RSCU_Values.pl'
+                           ],
+         'scripts' => undef,
+         'share_dir' => undef,
+         'sign' => undef,
+         'tap_harness_args' => {},
+         'test_file_exts' => [
+                               '.t'
+                             ],
+         'test_files' => undef,
+         'test_requires' => {},
+         'use_rcfile' => 1,
+         'use_tap_harness' => 0,
+         'verbose' => undef,
+         'xs_files' => undef
+       }
+     ];
+$x; }

@@ -1,0 +1,11 @@
+do{ my $x = {
+       'graphing' => {
+                       'description' => 'Use GD::Graphics to draw graphs',
+                       'requires' => {
+                                       'GD::Graph::colour' => '1.1',
+                                       'GD::Graph::lines' => '1.15',
+                                       'GD::Image' => 0
+                                     }
+                     }
+     };
+$x; }
