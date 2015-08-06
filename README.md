@@ -23,8 +23,8 @@ Sequence Validation Pipeline
 1. Download the entire repo (The Test_Scripts and MiSeqValidationResults folder are unnecessary)
 2. Install all the dependencies listed below
 3. Set paths in:
-    * pipeline.py => Set all "System-Defined Variables"
-    * tools/PostProcessing/scripts/postanalysis/genedesign.py => Set pathToSeqVal="path/To/pipeline.py"
+    * pipeline.py => Set first 2 "System-Defined Variables"; Rest will be automatically set
+    * PostProcessing/scripts/postanalysis/genedesign.py => Set pathToSeqVal="path/To/pipeline.py"
 4. Add JBEI SMB credentials to:
     * MiSeqServerData.py => Everywhere there is the word 'secret'
     * website/seqval.py => Everywhere there is the word 'secret'
