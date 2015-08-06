@@ -44,7 +44,7 @@ Pipeline.py is a Python 3 script, so call it with Python 3
 
 
 ```
-python pipeline.py -m <Main Library name> -s <Sub Library Names> -r <Reference sequence name> -e <Email address> -l <Path to logfile.txt> -n <Boolean, to use NERSC Version of tools>
+python3 pipeline.py -m <Main Library name> -s <Sub Library Names> -r <Reference sequence name> -e <Email address> -l <Path to logfile.txt> -n <Boolean, to use NERSC Version of tools>
 ```
 
 * -m Main Library Name
