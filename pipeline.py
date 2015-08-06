@@ -16,13 +16,13 @@ from email.mime.text import MIMEText
 #Paths to folders and tools
 pathToPipeline = "path/To/thisscript" #Path where this script, pipeline.py, is actually being run from
 pathToMiSeqSequenceStorage = pathToPipeline+"/"+"SMBMiSeqData" #Where MiSeq fastq.gz sequences are stored locally
-#Path to Tools
+#Path to External Tools
 pathToTools = pathToPipeline+"/tools"
 #Picard, BWA, Samtools, GATK libraries
 pathToPicard = pathToTools+"/Picard"
-pathToBWA = pathToTools+"/BWA"
-pathToSamtools = pathToTools+"/Samtools"
 pathToGATK = pathToTools+"/GATK"
+pathToBWA = pathToTools+"/BWA" #Default: Updated version - If user wants NERSC version, that is automatically set later in the script
+pathToSamtools = pathToTools+"/Samtools" #Default: Updated version
 # MiSeqBAMGeneration Tools, Post Processing
 pathToMiSeqBAMGenerationTools = pathToPipeline+"/MiSeqBAMGenerationTools" #Path to ReSeq Tools
 pathToPostProcessing = pathToPipeline+"/Postprocessing"
@@ -95,6 +95,9 @@ parser.add_argument("-e", "--email",
 parser.add_argument("-l", "--logFile", 
 					dest="logFile", default=pathToPipeline+"/website/logs/logOfPipeline_"+str(timeStamp)+".txt", 
                     help="Path to log File for pipeline's output messages")
+parser.add_argument('-n', "--nerscVersion",
+					dest='nerscVersion', default=False, 
+					action='store_true')
 args = parser.parse_args()
 #Assign command line args to local variables
 mainLibrary = args.mainLibrary
@@ -102,6 +105,13 @@ subLibraries = args.subLibraries
 referenceSequences = args.referenceSequences
 email = args.email
 logFile = args.logFile
+nerscVersion = args.nerscVersion
+
+#NERSC Version of tools
+if nerscVersion:
+	pathToBWA = pathToTools+"/BWA-NERSC_version"
+	pathToSamtools = pathToTools+"/Samtools-NERSC_version"
+
 #Create PATH
 pathToMainLibrary = pathToPipeline+"/MiSeqValidationResults/"+mainLibrary #mainLibrary, where all subLibrary folders are stored
 pathToReferenceFASTA = pathToMainLibrary+"/"+"ref/references.fasta" #Reference FASTA
