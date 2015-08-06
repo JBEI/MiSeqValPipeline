@@ -2,13 +2,21 @@ Sequence Validation Pipeline
 
 # Screenshots of Output
 
+## Website Interface 
+### Before Request Submission
+~[Before request submission](images/websitebefore.png)
+### After Submission
+~[After request submission](images/websiteafter.png)
 ## HTML page displaying each SubLibrary's call
-![this is required](images/html.png)
-## Excel sheet displaying SubLibrary's information
-![this is required](images/excel.png)
+![HTML page with pool cal information](images/html.png)
+## Types of calls
+![Color coding and names of calls](images/calls.png)
+## Excel sheet displaying each SubLibrary's information
+![Excel sheet with summary of all SubLibraries](images/excel.png)
 ## IGV XML to view results in IGV
-![this is required](images/igvxml.png)
-
+![IGV XML for viewing in IGV](images/igvxml.png)
+##Actual IGV File
+![Actual IGV file](images/igv.png)
 
 # Installation
 
