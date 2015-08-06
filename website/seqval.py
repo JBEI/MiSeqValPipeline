@@ -140,7 +140,7 @@ def run_pipeline():
 
 	if not error:
 		#Path to Pipeline.py
-		pathToPipeline = 'secret'
+		pathToPipeline = 'path/To/pipeline'
 
 		#Log file
 		timeStamp = int(time.time())
