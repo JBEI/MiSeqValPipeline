@@ -1,6 +1,5 @@
 
 import os
-from pprint import pprint
 
 def parse_callsum(sumfile):
   summaries = {}
@@ -73,8 +72,3 @@ def best_calls(calltable):
       else:
         ret.append( (ref,None) )
   return dict(ret)
-   
-#for ref,rlen in refs:
-#  tableline = '%s\t%s' % (ref, '\t'.join(calltable[ref][pname]['call'] for pname in poollist))
-#  print tableline
-  

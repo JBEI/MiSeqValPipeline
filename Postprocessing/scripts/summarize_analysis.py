@@ -3,7 +3,6 @@
 import os, sys
 import argparse
 from urlparse import urljoin
-from pprint import pprint
 parser = argparse.ArgumentParser()
 parser.add_argument('conffile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
 parser.add_argument('--fspath')
