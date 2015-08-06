@@ -1,0 +1,195 @@
+do{ my $x = [
+       {
+         'ARGV' => [],
+         'like_last_time' => 0
+       },
+       {},
+       {
+         'PL_files' => undef,
+         '_added_to_INC' => [],
+         'allow_mb_mismatch' => 0,
+         'allow_pureperl' => 0,
+         'auto_configure_requires' => 1,
+         'autosplit' => undef,
+         'base_dir' => '/Users/mwornow-m/Desktop/seqval/tools/DNAssemble',
+         'bindoc_dirs' => [
+                            'blib/script'
+                          ],
+         'blib' => 'blib',
+         'build_bat' => 0,
+         'build_class' => 'Module::Build',
+         'build_elements' => [
+                               'PL',
+                               'support',
+                               'pm',
+                               'xs',
+                               'share_dir',
+                               'pod',
+                               'script',
+                               'DNAssemble'
+                             ],
+         'build_requires' => {
+                               'Test::Deep' => '0.1',
+                               'Test::More' => '0.8'
+                             },
+         'build_script' => 'Build',
+         'bundle_inc' => [],
+         'bundle_inc_preload' => [],
+         'c_source' => undef,
+         'config' => undef,
+         'config_dir' => '_build',
+         'configure_requires' => {
+                                   'Module::Build' => '0.38'
+                                 },
+         'conflicts' => {},
+         'cpan_client' => 'cpan',
+         'create_license' => undef,
+         'create_makefile_pl' => 'traditional',
+         'create_packlist' => 1,
+         'create_readme' => undef,
+         'debug' => undef,
+         'debugger' => undef,
+         'destdir' => undef,
+         'dist_abstract' => 'Functions for the fragmentation of synthetic DNA',
+         'dist_author' => [
+                            'Sarah Richardson <SMRichardson@lbl.gov>'
+                          ],
+         'dist_name' => 'Bio-DNAssemble',
+         'dist_suffix' => undef,
+         'dist_version' => '1.00',
+         'dist_version_from' => undef,
+         'dynamic_config' => 1,
+         'extra_compiler_flags' => [],
+         'extra_linker_flags' => [],
+         'extra_manify_args' => undef,
+         'get_options' => {
+                            'BLAST_support' => {
+                                                 'store' => \0,
+                                                 'type' => '=s'
+                                               },
+                            'EMBOSS_support' => {
+                                                  'store' => \0,
+                                                  'type' => '=s'
+                                                },
+                            'conf_path' => {
+                                             'store' => \'/etc/DNAssemble/',
+                                             'type' => '=s'
+                                           },
+                            'like_last_time' => {
+                                                  'default' => 0,
+                                                  'store' => \0
+                                                },
+                            'script_path' => {
+                                               'store' => \'/usr/local/bin',
+                                               'type' => '=s'
+                                             },
+                            'tmp_path' => {
+                                            'store' => \'/tmp',
+                                            'type' => '=s'
+                                          },
+                            'vmatch_support' => {
+                                                  'store' => \0,
+                                                  'type' => '=s'
+                                                }
+                          },
+         'has_config_data' => undef,
+         'html_css' => '',
+         'include_dirs' => [],
+         'install_base' => undef,
+         'install_base_relpaths' => {},
+         'install_path' => {
+                             'DNAssemble' => '/etc/DNAssemble/',
+                             'script' => '/usr/local/bin'
+                           },
+         'install_sets' => {},
+         'installdirs' => 'site',
+         'libdoc_dirs' => [
+                            'blib/lib',
+                            'blib/arch'
+                          ],
+         'license' => 'bsd',
+         'magic_number' => undef,
+         'mb_version' => '0.4214',
+         'meta_add' => {},
+         'meta_merge' => {},
+         'metafile' => 'META.yml',
+         'metafile2' => 'META.json',
+         'module_name' => 'Bio::DNAssemble',
+         'mymetafile' => 'MYMETA.yml',
+         'mymetafile2' => 'MYMETA.json',
+         'needs_compiler' => '',
+         'orig_dir' => '/Users/mwornow-m/Desktop/seqval/tools/DNAssemble',
+         'original_prefix' => {},
+         'perl' => '/usr/bin/perl',
+         'pm_files' => undef,
+         'pod_files' => undef,
+         'pollute' => undef,
+         'prefix' => undef,
+         'prefix_relpaths' => {},
+         'prereq_action_types' => [
+                                    'requires',
+                                    'build_requires',
+                                    'test_requires',
+                                    'conflicts',
+                                    'recommends'
+                                  ],
+         'program_name' => undef,
+         'pureperl_only' => 0,
+         'quiet' => undef,
+         'recommends' => {},
+         'recurse_into' => [],
+         'recursive_test_files' => undef,
+         'release_status' => 'stable',
+         'requires' => {
+                         'Bio::Root::Root' => 0,
+                         'perl' => '5.006'
+                       },
+         'script_files' => [
+                             'bin/JGISB_96_to_384.pl',
+                             'bin/JGISB_Analyze_PacBio.pl',
+                             'bin/JGISB_Design_Fixing_Primers.pl',
+                             'bin/JGISB_CompareConstructs.pl',
+                             'bin/JGISB_Primer_forEnzfromGB.pl',
+                             'bin/DNAssemble_001_Classic_SGE.pl',
+                             'bin/DNAssemble_002_Classic_Local.pl',
+                             'bin/DNAssemble_003_GBlock_SGE.pl',
+                             'bin/DNAssemble_004_ScreenedGBlock_SGE.pl',
+                             'bin/DNAssemble_100_CreateXML.pl',
+                             'bin/DNAssemble_110_Cognominate.pl',
+                             'bin/DNAssemble_115_Vector_Flank.pl',
+                             'bin/DNAssemble_117_GBlockable.pl',
+                             'bin/DNAssemble_120_Carve.pl',
+                             'bin/DNAssemble_121_Carve_Simple.pl',
+                             'bin/DNAssemble_122_Carve_Simple.pl',
+                             'bin/DNAssemble_130_Compress.pl',
+                             'bin/DNAssemble_140_Cluster.pl',
+                             'bin/DNAssemble_150_InspectGBlocks.pl',
+                             'bin/DNAssemble_155_CorrectGBlocks.pl',
+                             'bin/DNAssemble_160_Chop.pl',
+                             'bin/DNAssemble_170_Compress2.pl',
+                             'bin/DNAssemble_200_Check.pl',
+                             'bin/DNAssemble_201_Check_GBlock.pl',
+                             'bin/DNAssemble_300_Summary.pl',
+                             'bin/DNAssemble_310_Extract.pl',
+                             'bin/DNAssemble_320_Stitchers.pl',
+                             'bin/DNAssemble_Classic.pl',
+                             'bin/DNAssemble_GBlock.pl',
+                             'bin/DNAssemble_Local.pl',
+                             'bin/DNAssemble_ScreenedGBlock.pl'
+                           ],
+         'scripts' => undef,
+         'share_dir' => undef,
+         'sign' => undef,
+         'tap_harness_args' => {},
+         'test_file_exts' => [
+                               '.t'
+                             ],
+         'test_files' => undef,
+         'test_requires' => {},
+         'use_rcfile' => 1,
+         'use_tap_harness' => 0,
+         'verbose' => undef,
+         'xs_files' => undef
+       }
+     ];
+$x; }

@@ -1,0 +1,4 @@
+468c468
+<     if ( !$args->{alignment}->no_sequences ) {
+---
+>     if ( !$args->{alignment}->num_sequences ) {

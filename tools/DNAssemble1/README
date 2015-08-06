@@ -1,0 +1,109 @@
+Bio::DNAssemble
+
+ABOUT
+
+Algorithms for the design of practically assemblable multikilobase DNA from
+hundred base pair oligonucleotides
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+	perl Build.PL
+	
+Answer the following questions (may differ based on your system, [defaults]):
+
+			Where should DNAssemble write tmp files? [ /tmp ]
+			Where should DNAssemble config files be installed? [ /etc/DNAssemble/ ]
+			Should DNAssemble install scripts? [ Y ]
+			Where should DNAssemble scripts be installed? [ /usr/local/bin/ ]
+			Enable EMBOSS palindrome for hairpin detection? [ Y ]
+			Enable BLAST+ for similarity detection (SLOW)? [ Y ]
+			Enable vmatch for similarity detection (LESS SLOW)? [ Y ]
+
+You may need to install some additional perl modules for it to work:
+
+	./Build installdeps
+	
+Then run the following:
+
+	./Build
+	./Build test
+	./Build install
+
+Then enjoy DNAssemble.
+
+OH NO, VMATCH
+
+Are you trying to use Vmatch with DNAssemble? Are you getting these kinds of
+notifications?
+
+   --------------------- WARNING ---------------------
+   MSG: Use of method no_sequences() is deprecated, use num_sequences() instead
+   To be removed in 1.0075
+   ---------------------------------------------------
+
+or
+
+   UNIVERSAL->import is deprecated and will be removed in a future perl at
+   /global/common/genepool/usg/languages/perl/5.16.0/lib/site_perl/5.16.0/
+   Bio/Grep/Backend/BackendI.pm line 37.
+
+These are caused by code in the parsing package DNAssemble uses to read Vmatch
+output. To remove these (harmless but annoyingly persistent) warnings, use the
+patches in the BioGrepPatch folder. Bio::Grep::BackendI needs to be patched as
+described in BackendI.patch, and Bio::Grep::Backend::Vmatch needs to be patched
+as described in Vmatch.patch.
+
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc Bio::DNAssemble
+
+You can also look for information at:
+
+    RT, CPAN's request tracker (report bugs here)
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Bio::DNAssemble
+
+    AnnoCPAN, Annotated CPAN documentation
+        http://annocpan.org/dist/Bio::DNAssemble
+
+    CPAN Ratings
+        http://cpanratings.perl.org/d/Bio::DNAssemble
+
+    Search CPAN
+        http://search.cpan.org/dist/Bio::DNAssemble/
+
+COPYRIGHT AND LICENSE
+
+Copyright (c) 2013, DNAssemble developers
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this
+list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
+
+* The names of Johns Hopkins, the Joint Genome Institute, the Lawrence Berkeley
+National Laboratory, the Department of Energy, and the DNAssemble developers may
+not be used to endorse or promote products derived from this software without
+specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE DEVELOPERS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

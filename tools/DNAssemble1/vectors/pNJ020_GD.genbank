@@ -1,0 +1,123 @@
+LOCUS       pNJ020                  3561 bp ds-DNA     circular     3-MAY-2013
+ACCESSION   pNJ020
+VERSION     pNJ020
+KEYWORDS    .
+FEATURES             Location/Qualifiers
+     rep_origin      complement(66..910)
+                     /label="p15A ori"
+                     /vntifkey="33"
+     primer          complement(911..970)
+                     /label="ANTISENSE_PRM"
+                     /vntifkey="27"
+                     /note="Antisense primer used for creating aph+p15A ori"
+     primer          complement(1784..1850)
+                     /label="NJ118"
+                     /vntifkey="27"
+                     /note="Antisense primer used for creating PgapD+cat2 (For
+                     pKD4)"
+     CDS             1160..1804
+                     /label="cat2"
+                     /vntifkey="4"
+     promoter        985..1159
+                     /label="PgapDH"
+                     /vntifkey="30"
+     misc_recomb     1811..1856
+                     /label="FRT"
+                     /vntifkey="86"
+     gene            complement(2026..3030)
+                     /label="repB"
+                     /vntifkey="60"
+     CDS             complement(2026..3030)
+                     /label="repB"
+                     /codon_start=1
+                     /transl_table=11
+                     /product="RepB"
+                     /protein_id="AAO86061.1"
+                     /db_xref="GI:29650180"
+                     /vntifkey="4"
+                     /note="replication protein; rolling circle replication
+                     initiation protein; Bacillus origin of replication from
+                     Geobacillus stearothermophilus plasmid pTHT15"
+     CDS             complement(3159..3407)
+                     /label="putative mob/pre fragment"
+                     /vntifkey="4"
+                     /note="cds homologous to a fragment of mob/pre plasmid
+                     proteins involved in mobilization and recombination."
+     rep_origin      1951..3485
+                     /label="putative minimal C. thermocellum ori"
+                     /vntifkey="33"
+                     /note="region of pNW33N that is conserved in pMU770"
+     repeat_region   3119..3484
+                     /label="pNW33N Repeat 1"
+                     /vntifkey="34"
+     misc_feature    937..982
+                     /label="FRT"
+                     /vntifkey="21"
+     primer_bind     1837..1877
+                     /label="CLH5"
+     primer_bind     1878..1904
+                     /label="CLH3"
+     protein_bind    1875..1880
+                     /label="SmaI"
+ORIGIN      
+        1 ctagttgcca gctgcattaa tgaatcggcc aacgcgcggg gagaggcggt ttgcgtattg
+       61 ggcgctagcg gagtgtatac tggcttacta tgttggcact gatgagggtg tcagtgaagt
+      121 gcttcatgtg gcaggagaaa aaaggctgca ccggtgcgtc agcagaatat gtgatacagg
+      181 atatattccg cttcctcgct cactgactcg ctacgctcgg tcgttcgact gcggcgagcg
+      241 gaaatggctt acgaacgggg cggagatttc ctggaagatg ccaggaagat acttaacagg
+      301 gaagtgagag ggccgcggca aagccgtttt tccataggct ccgcccccct gacaagcatc
+      361 acgaaatctg acgctcaaat cagtggtggc gaaacccgac aggactataa agataccagg
+      421 cgtttccccc tggcggctcc ctcgtgcgct ctcctgttcc tgcctttcgg tttaccggtg
+      481 tcattccgct gttatggccg cgtttgtctc attccacgcc tgacactcag ttccgggtag
+      541 gcagttcgct ccaagctgga ctgtatgcac gaaccccccg ttcagtccga ccgctgcgcc
+      601 ttatccggta actatcgtct tgagtccaac ccggaaagac atgcaaaagc accactggca
+      661 gcagccactg gtaattgatt tagaggagtt agtcttgaag tcatgcgccg gttaaggcta
+      721 aactgaaagg acaagttttg gtgactgcgc tcctccaagc cagttacctc ggttcaaaga
+      781 gttggtagct cagagaacct tcgaaaaacc gccctgcaag gcggtttttt cgttttcaga
+      841 gcaagagatt acgcgcagac caaaacgatc tcaagaagat catcttatta atcagataaa
+      901 atatttctag gcaccaataa ctgccttaaa gatatcgaag ttcctatact ttctagagaa
+      961 taggaacttc ggaataggaa cttcttaaaa aattaattat tttttatcta aactattgaa
+     1021 aatgaaaata aaataatata aaatgaatca tagtgcaaga gatacttgcc agaggatgaa
+     1081 tattttactg cattcatgct ttatggcagc taatagaggc attaaattaa attttaattt
+     1141 acaataggag gtgatattaa tgaacttcaa taagattgat ttagacaact ggaagagaaa
+     1201 agagatattc aatcattatt tgaaccaaca aacgactttt agtataacca cagagattga
+     1261 tattagtgtt ttatatagga acataaaaca agaaggatat aagttttacc ctgcctttat
+     1321 tttcttagtg acaagggtga taaactcaaa tacagcgttt agaactggtt acaatagcga
+     1381 cggagagtta ggttattggg ataagttaga gccactttat accatttttg atggtgtatc
+     1441 taaaacattc tctggtattt ggactcctgt aaagaatgac ttcaaagagt tttatgattt
+     1501 atacctttct gatgtagaga aatataatgg ttcggggaaa ctttttccca aaacacctat
+     1561 acctgaaaat gctttttctc tttctattat tccttggact tcatttactg ggttcaacct
+     1621 gaatatcaat aataatagta actaccttct acccattatt acagcaggaa agttcatcaa
+     1681 taaaggtaat agtatatatt taccgctatc tttacaggtc catcattctg tttgtgatgg
+     1741 ttatcacgca ggattgttta tgaactctat tcaggaactt tcagatagac ctaatgactg
+     1801 gcttttataa gaagttccta tactttctag agaataggaa cttcggaata ggaactaagg
+     1861 aggatattca tatgcccggg gcggccgcgg taccaagctt caattttatt aaagttcatt
+     1921 tgatatgcct cctaaatttt tatctaaagt gaatttagga ggcttacttg tctgctttct
+     1981 tcattagaat caatcctttt ttaaaagtca atcccgtttg ttgaactact ctttaataaa
+     2041 ataatttttc cgttcccaat tccacattgc aataatagaa aatccatctt catcggcttt
+     2101 ttcgtcatca tctgtatgaa tcaaatcgcc ttcttctgtg tcatcaaggt ttaatttttt
+     2161 atgtatttct tttaacaaac caccatagga gattaacctt ttacggtgta aaccttcctc
+     2221 caaatcagac aaacgtttca aattcttttc ttcatcatcg gtcataaaat ccgtatcctt
+     2281 tacaggatat tttgcagttt cgtcaattgc cgattgtata tccgatttat atttattttt
+     2341 cggtcgaatc atttgaactt ttacatttgg atcatagtct aatttcattg cctttttcca
+     2401 aaattgaatc cattgttttt gattcacgta gttttctgta ttcttaaaat aagttggttc
+     2461 cacacatacc aatacatgca tgtgctgatt ataagaatta tctttattat ttattgtcac
+     2521 ttccgttgca cgcataaaac caacaagatt tttattaatt tttttatatt gcatcattcg
+     2581 gcgaaatcct tgagccatat ctgacaaact cttatttaat tcttcgccat cataaacatt
+     2641 tttaactgtt aatgtgagaa acaaccaacg aactgttggc ttttgtttaa taacttcagc
+     2701 aacaaccttt tgtgactgaa tgccatgttt cattgctctc ctccagttgc acattggaca
+     2761 aagcctggat ttacaaaacc acactcgata caactttctt tcgcctgttt cacgattttg
+     2821 tttatactct aatatttcag cacaatcttt tactctttca gcctttttaa attcaagaat
+     2881 atgcagaagt tcaaagtaat caacattagc gattttcttt tctctccatg gtctcacttt
+     2941 tccacttttt gtcttgtcca ctaaaaccct tgatttttca tctgaataaa tgctactatt
+     3001 aggacacata atattaaaag aaacccccat ctatttagtt atttgtttgg tcacttataa
+     3061 ctttaacaga tggggttttt ctgtgcaacc aattttaagg gttttcaata ctttaaaaca
+     3121 catacatacc aacacttcaa cgcacctttc agcaactaaa ataaaaatga cgttatttct
+     3181 atatgtatca agaatagaaa gaactcgttt ttcgctacgc tcaaaacgca aaaaaagcac
+     3241 tcattcgagt gctttttctt atcgctccaa atcatgcgat tttttcctct ttgcttttct
+     3301 ttgctcacga agttctcgat cacgctgcaa aacatcttga agcgaaaaag tattcttctt
+     3361 ttcttccgat cgctcatgct gacgcacgaa aagccctcta ggcgcatagg aacaactcct
+     3421 aaatgcatgt gaggggtttt ctcgtccatg tgaacagtcg catacgcaat attttgtttc
+     3481 ccatactgca ttaatgaatc ggccaacgcg cggggagagg cggtttgcgt attgggcgct
+     3541 cttccgcttc ctcgctcact a   
+//

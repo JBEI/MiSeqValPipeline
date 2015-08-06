@@ -1,0 +1,22 @@
+do{ my $x = {
+       'blast' => {
+                    'description' => 'Enable BLAST+ for similarity detection',
+                    'requires' => {
+                                    'Bio::Tools::Run::StandAloneBlastPlus' => 0
+                                  }
+                  },
+       'palindrome' => {
+                         'description' => 'Enable EMBOSS palindrome for hairpin detection',
+                         'requires' => {
+                                         'Bio::Factory::EMBOSS' => 0,
+                                         'Bio::Tools::EMBOSS::Palindrome' => 0
+                                       }
+                       },
+       'vmatch' => {
+                     'description' => 'Enable vmatch for similarity detection',
+                     'requires' => {
+                                     'Bio::Grep::Backend::Vmatch' => '0.10.6'
+                                   }
+                   }
+     };
+$x; }

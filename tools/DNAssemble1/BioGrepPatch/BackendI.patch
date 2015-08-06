@@ -1,0 +1,4 @@
+37c37
+< use UNIVERSAL qw(isa);
+---
+> #use UNIVERSAL qw(isa);

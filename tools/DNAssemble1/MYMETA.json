@@ -1,0 +1,69 @@
+{
+   "abstract" : "Functions for the fragmentation of synthetic DNA",
+   "author" : [
+      "Sarah Richardson <SMRichardson@lbl.gov>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4214",
+   "license" : [
+      "bsd"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Bio-DNAssemble",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::Deep" : "0.1",
+            "Test::More" : "0.8"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.38"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Bio::Root::Root" : "0",
+            "perl" : "5.006"
+         }
+      }
+   },
+   "provides" : {
+      "Bio::DNAssemble" : {
+         "file" : "lib/Bio/DNAssemble.pm",
+         "version" : "1"
+      },
+      "Bio::DNAssemble::Blast" : {
+         "file" : "lib/Bio/DNAssemble/Blast.pm",
+         "version" : "1"
+      },
+      "Bio::DNAssemble::Oligo" : {
+         "file" : "lib/Bio/DNAssemble/Oligo.pm",
+         "version" : "1"
+      },
+      "Bio::DNAssemble::Palindrome" : {
+         "file" : "lib/Bio/DNAssemble/Palindrome.pm",
+         "version" : "1"
+      },
+      "Bio::DNAssemble::Vector" : {
+         "file" : "lib/Bio/DNAssemble/Vector.pm",
+         "version" : "1"
+      },
+      "Bio::DNAssemble::Vmatch" : {
+         "file" : "lib/Bio/DNAssemble/Vmatch.pm",
+         "version" : "1"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://opensource.org/licenses/bsd-license.php"
+      ]
+   },
+   "version" : "1.00",
+   "x_serialization_backend" : "JSON::PP version 2.27202"
+}

@@ -1,0 +1,9 @@
+do{ my $x = {
+       'EMBOSS_support' => 0,
+       'BLAST_support' => 0,
+       'tmp_path' => '/tmp',
+       'script_path' => '/usr/local/bin',
+       'conf_path' => '/etc/DNAssemble/',
+       'vmatch_support' => 0
+     };
+$x; }
