@@ -24,8 +24,8 @@ pathToBWA = pathToTools+"/BWA"
 pathToSamtools = pathToTools+"/Samtools"
 pathToGATK = pathToTools+"/GATK"
 # MiSeqBAMGeneration Tools, Post Processing
-pathToMiSeqBAMGenerationTools = pathToTools+"/MiSeqBAMGenerationTools" #Path to ReSeq Tools
-pathToPostProcessing = pathToTools+"/Postprocessing"
+pathToMiSeqBAMGenerationTools = pathToPipeline+"/MiSeqBAMGenerationTools" #Path to ReSeq Tools
+pathToPostProcessing = pathToPipeline+"/Postprocessing"
 pathToPostProcessingScripts = pathToPostProcessing+"/scripts"
 os.environ["PERL5LIB"] = pathToMiSeqBAMGenerationTools #For PERL5
 
