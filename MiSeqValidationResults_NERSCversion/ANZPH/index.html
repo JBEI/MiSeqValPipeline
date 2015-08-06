@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>MiSeq Sequence Validation Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+  </style>
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+  <link href="http://synbio.jgi-psf.org:8077/analysis/static/css/pacbio.status.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+  <!-- Page header -->
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="page-header">
+        <h1> Analysis: /Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH </h1>
+      </div>
+    </div>
+  </div> <!-- end row -->
+  
+  <div class="row-fluid">
+    <!-- Analysis Info -->
+    <div class="span6">
+      <table class="table table-condensed pretty" id="dtlinks"></table>
+    </div> <!-- end span8 -->
+
+    <div class="span2" style="text-align:center;">
+      <a href="./results//Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH.xlsx" class="btn btn-mini" style="margin-top:10px;margin-bottom:20px;">Excel file</a>
+      <table class="table table-nolines">
+        <tr><th>Perfect</th><td id="npass"></td></tr>
+        <tr><th>Fixes</th><td id="nfix"></td></tr>
+        <tr><th>Failed</th><td id="nfail"></td></tr>
+      </table>
+    </div>
+
+    <!-- Legend -->
+    <div class="span4 offset8" style="position:fixed;">
+      <table class="table table-nolines">
+        <thead>
+        <tr><th colspan=3>Call </th><tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="badge badge-perfect">F</span></td><td><strong>Flawless</strong></td><td> everything is looking good</td></tr>
+          <tr><td><span class="badge badge-almost">A</span></td><td><strong>Almost</strong></td><td> all variants within 10 bases</td></tr>       
+          <tr><td><span class="badge badge-incomplete">I</span></td><td><strong>Incomplete</strong></td><td> not all positions covered </td></tr>
+          <tr><td><span class="badge badge-lowcov">L</span></td><td><strong>Low coverage</strong></td><td> mean coverage < 30</td></tr>
+          <tr><td><span class="badge badge-errors">E</span></td><td><strong>Errors</strong></td><td> variants </td></tr>
+          <tr><td><span class="badge badge-dips">D</span></td><td><strong>Dips</strong></td><td> Dips </td></tr>
+          <tr><td><span class="badge badge-nocall">?</span></td><td><strong>No call</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div> <!-- end span4 -->
+    
+  </div> <!-- end row -->
+
+  <!-- Results table -->
+  <div class="row-fluid">
+    <div class="span8">
+      <h2> Results </h2>
+      <table class="datatable table table-condensed pretty" id="dtresults"></table>
+    </div> <!-- end span8 -->
+  </div> <!-- end row -->
+
+</div> <!-- end container-fluid -->
+
+</body>
+</html>
+
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>    
+  <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+  <!-- script type="text/javascript" charset="utf8" src="/static/js/bootstrap-bigmodal.js"></script -->
+
+  <script>
+    var analysis_name = "/Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH";
+    var baseurl = "localhost";
+    var analysis_url = baseurl + analysis_name + '/';
+  </script>
+
+<script>
+  var protocols = ["bwa_dir"];
+  var pools = [{"jobs": {"bwa_dir": "bwa_dir"}, "name": "ANXHX_libName", "sample_id": "ANXHX_libName"}];
+
+  var dtLinkCols = [{"sTitle":"Pool","sWidth":"15%"},{"sTitle":"SampleID","sWidth":"25%"}];
+  $.each(protocols,function(j,protocol) {
+    dtLinkCols.push({"sTitle":protocol});
+  });
+  dtLinkCols.push({"sTitle":"IGV links","sWidth":"25%"});
+  
+  var dtLinks = [];
+  $.each(pools,function(j,p){
+    var dt_row = ['<b>'+p.name+'</b>',p.sample_id];
+    $.each(protocols,function(j,protocol) {
+      if(protocol in p.jobs) {
+        var td_str = '<a href="' + analysis_url + p.name + '/' + p.jobs[protocol] + '/call_summary.txt">' + p.jobs[protocol] + '</a> ';
+        dt_row.push(td_str);
+      }
+      else {
+        var td_str = "-";
+        dt_row.push(td_str);
+      }
+    });
+    var td_str = '<small><a href="' + analysis_url + 'results/' + p.name + '.igv.xml">igv.xml</a></small>'
+    dt_row.push(td_str);
+    dtLinks.push(dt_row);
+  });
+  
+  $(function() {
+    $("#dtlinks").dataTable({
+        'bPaginate':false,
+        'bFilter':false,
+        'aaSorting':[],
+        'bInfo':false,        
+        'aoColumns': dtLinkCols, //array of columns with "sTitle"
+        'aaData':dtLinks // array of arrays with row data
+    });
+  });
+</script>
+
+<script>
+  var analysis_outcomes = {"RBS_VioB3": {"ANXHX_libName": {"call": "incomplete", "display": "0.0"}}, "RBS_vioE2": {"ANXHX_libName": {"call": "incomplete", "display": "2.4"}}, "RBS_vioC1": {"ANXHX_libName": {"call": "perfect", "display": "3254"}}, "RBS_VioC2": {"ANXHX_libName": {"call": "incomplete", "display": "6.3"}}, "RBS_vioC3": {"ANXHX_libName": {"call": "incomplete", "display": "0.0"}}, "RBS_vioA2": {"ANXHX_libName": {"call": "incomplete", "display": "3.5"}}, "RBS_vioA3": {"ANXHX_libName": {"call": "errors", "display": "3"}}, "RBS_VioB2": {"ANXHX_libName": {"call": "incomplete", "display": "0.0"}}, "RBS_vioA1": {"ANXHX_libName": {"call": "incomplete", "display": "4.4"}}, "RBS_vioD1": {"ANXHX_libName": {"call": "perfect", "display": "3381"}}, "RBS_vioE1": {"ANXHX_libName": {"call": "incomplete", "display": "0.0"}}, "RBS_VioD3": {"ANXHX_libName": {"call": "incomplete", "display": "3.2"}}, "RBS_vioD2": {"ANXHX_libName": {"call": "incomplete", "display": "0.5"}}, "RBS_VioB": {"ANXHX_libName": {"p2": "aataaggacaATAATACACAAATGAGCATTCTGG", "p1": "GTGTATTATTGTCCTTATTCGGCTGTAGATAG", "call": "almost", "display": "2273"}}, "RBS_vioE3": {"ANXHX_libName": {"p2": "ttacgtaaggAAATAACAATTAATGCAACTGAGTAAG", "p1": "TTGTTATTTCCTTACGTAATGTGGATTAAGTAGC", "call": "almost", "display": "2244"}}};
+  var references = [{"length": 1311, "name": "RBS_vioA1"}, {"length": 1359, "name": "RBS_vioA2"}, {"length": 1341, "name": "RBS_vioA3"}, {"length": 1344, "name": "RBS_vioC1"}, {"length": 1344, "name": "RBS_VioC2"}, {"length": 1344, "name": "RBS_vioC3"}, {"length": 1175, "name": "RBS_vioD1"}, {"length": 1172, "name": "RBS_vioD2"}, {"length": 1187, "name": "RBS_VioD3"}, {"length": 630, "name": "RBS_vioE1"}, {"length": 636, "name": "RBS_vioE2"}, {"length": 654, "name": "RBS_vioE3"}, {"length": 3046, "name": "RBS_VioB"}, {"length": 3076, "name": "RBS_VioB2"}, {"length": 3079, "name": "RBS_VioB3"}];
+  var bestbets = {"RBS_VioB3": null, "RBS_VioB2": null, "RBS_vioC1": "ANXHX_libName", "RBS_VioC2": null, "RBS_vioC3": null, "RBS_vioD2": null, "RBS_VioB": "ANXHX_libName", "RBS_vioA2": null, "RBS_vioA3": null, "RBS_vioA1": null, "RBS_vioE2": null, "RBS_vioE3": "ANXHX_libName", "RBS_VioD3": null, "RBS_vioE1": null, "RBS_vioD1": "ANXHX_libName"};
+
+  var calculateTotals = function() {
+    var counts = {'fail':0,'fix':0,'pass':0};
+    $.each(bestbets,function(k,v){
+      if(!v) {
+        ++counts.fail;
+      } else {
+        if(analysis_outcomes[k][bestbets[k]].call=="perfect") ++counts.pass;
+        else if (analysis_outcomes[k][bestbets[k]].call=="almost") ++counts.fix;
+      }
+    });
+    var nrefs = counts.pass + counts.fix + counts.fail;
+    $("#npass").html(counts.pass + ' (' + (100*counts.pass/nrefs).toFixed(1) +'%)');
+    $("#nfix").html(counts.fix + ' (' + (100*counts.fix/nrefs).toFixed(1) +'%)');
+    $("#nfail").html(counts.fail + ' (' + (100*counts.fail/nrefs).toFixed(1) +'%)');
+  }
+  
+  var dtCols = [{"sTitle":"Reference","sWidth":"30%"},{"sTitle":"Length","sWidth":"10%"}];
+  $.each(pools,function(i,p){
+    var hstr = p.name;
+    dtCols.push({"sTitle":hstr}); 
+  });
+  
+  var dtData = [];
+  $.each(references,function(i,ref) {
+    var newrefname = ref.name;
+    if (newrefname.length>30){ newrefname = newrefname.substring(0,30) + "...";}
+    var reftip = '<span data-toggle="tooltip" title="' + ref.name + '">' + newrefname + '</span>';
+    var rowdata = [reftip,ref.length];
+    var bbet = bestbets[ref.name];
+    $.each(pools,function(j,p){
+      //var td_str = '<div class="dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href=".">'
+      var outcome = analysis_outcomes[ref.name][p.name];      
+      var cstr = '';
+      if(outcome) {
+        if(p.name==bbet) {
+          cstr = '<span class="badge badge-' + outcome.call + ' badge-digit3" data-bestpool="true">' + outcome.display + '</span>';
+        }
+        else {
+          cstr = '<span class="badge badge-' + outcome.call + ' badge-digit3">' + outcome.display + '</span>';
+        }
+      }
+      else {
+        cstr = '<span class="badge">N</span>'
+      }
+      rowdata.push(cstr);
+    });
+    dtData.push(rowdata);
+  });
+
+  $(function() {
+    $("#dtresults").dataTable({
+        'bPaginate':false,
+        'bFilter':true,
+        'aaSorting':[],
+        'aoColumns': dtCols, //array of columns with "sTitle"
+        'bAutoWidth': false,
+        'aaData':dtData // array of arrays with row data
+        //'aoColumnDefs': [{'aTargets':[0],'sWidth':"25%"},{'aTargets':[1],'sWidth':"15%"}]
+    });
+    $('span[data-bestpool]').each(function(index){$(this).closest("td").addClass("bestclone")});
+    $.each(bestbets,function(k,v){if(!v) {$('span[title="'+ k +'"]').closest("tr").addClass("failrow");}});
+    calculateTotals();
+  });
+</script>
+

@@ -1,0 +1,25 @@
+#!/bin/sh
+umask 2
+exit_on_error()
+{
+  if [ "${1}" -ne "0" ]; then
+    echo exit on error code ${1}
+    exit 100
+  fi
+}
+
+mv bam_dir/pe-9331.1.128793.CGAGGCT-CTCTCTA.1@1.bam ANXHX_libName.bam
+exit_on_error $?
+/Users/mwornow-m/Desktop/JBEIseqval/tools/Samtools-NERSC_version/samtools index ANXHX_libName.bam
+exit_on_error $?
+/Users/mwornow-m/Desktop/JBEIseqval/tools/Samtools-NERSC_version/samtools flagstat ANXHX_libName.bam > ANXHX_libName.bam.flagstat
+if [ $? -eq 0 ]; then
+  if [ ! -e scripts ]; then
+   mkdir scripts
+  fi
+  mv $0 scripts
+else
+  echo exit on error code $?
+  exit 100
+fi
+ 
