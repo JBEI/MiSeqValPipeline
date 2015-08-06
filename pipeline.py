@@ -130,6 +130,7 @@ log(l, "Main Library: "+mainLibrary)
 log(l, "Sub Libraries: "+str(subLibraries))
 log(l, "Reference Sequences "+str(referenceSequences))
 log(l, "Email "+str(email))
+log(l, "Use NERSC version of tools: "+str(nerscVersion))
 log(l, "")
 
 
