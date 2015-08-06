@@ -44,21 +44,24 @@ Pipeline.py is a Python 3 script, so call it with Python 3
 
 
 ```
-python pipeline.py -m <Main Library name> -s <Sub Library Names> -r <Reference sequence name> -e <Email address> -l <Path to logfile.txt>
+python pipeline.py -m <Main Library name> -s <Sub Library Names> -r <Reference sequence name> -e <Email address> -l <Path to logfile.txt> -n <Boolean, to use NERSC Version of tools>
 ```
 
-* -m Main Library Name
+* -m <Main Library Name>
 	* Name of Folder on MiSeq where this run is stored
 	* Example: `-m 141212_M03257_0002_000000000-AC28N`
-* -s Sub Library Names
+* -s <Sub Library Names>
 	* Space separated list of sample IDs that we want validated. These must be located in the Main Library folder
 	* Example: `-s WT_1 WT_2 WT_3 32_1`
-* -e Email Address
+* -e <Email Address>
 	* Pipeline will send email to this address when Pipeline is finished
 	* Example: `-e email@lbl.gov`
-* -l Path to logfile.txt
+* -l <Path to logfile.txt>
 	* Path to where a Log File will be written after Pipeline is finished, detailing execution information
 	* Example: `-l /Users/synbio/sequencevalidation/logs`
+* -n <Boolean flag for using NERSC version of tools>
+    * If set, the Pipeline will use the (older) NERSC Versions of the BWA, Samtools, and Picard tools
+    * Example: `-n`
 
 ###Requirements:
 * Tools Folder (included with repo)
