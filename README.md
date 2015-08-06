@@ -76,8 +76,6 @@ python3 pipeline.py -m <Main Library name> -s <Sub Library Names> -r <Reference 
     * FastQC - 0.11.3
     * DNAssemble - Perl Module
     * BioDesign - Perl Module
-    * Post-Processing - Python Scripts
-    * MiSeq BAM Generation Tools - Perl Scripts
 * Perl modules (Perl 5.18)
     * Modern::Perl
     	* `sudo cpan install Modern::Perl`
