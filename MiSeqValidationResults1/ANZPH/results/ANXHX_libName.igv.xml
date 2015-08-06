@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="/Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH/ref/references.fasta" locus="All" version="5">
+  <Resources>
+    <Resource path="/Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH/ANXHX_libName/bwa_dir/callable.bed" name="bwa_dir_callable"/>
+    <Resource path="/Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH/ANXHX_libName/bwa_dir/aligned_reads.bam" name="bwa_dir_reads"/>
+    <Resource path="/Users/mwornow-m/Desktop/JBEIseqval/MiSeqValidationResults/ANZPH/ANXHX_libName/bwa_dir/snps.gatk.vcf" name="bwa_dir_variants"/>
+
+  </Resources>
+</Session>

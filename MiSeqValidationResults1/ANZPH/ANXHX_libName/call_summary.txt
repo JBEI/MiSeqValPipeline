@@ -1,0 +1,7 @@
+                         state nBases
+                         REF_N 0
+                      CALLABLE 7798
+                   NO_COVERAGE 11082
+                  LOW_COVERAGE 3742
+            EXCESSIVE_COVERAGE 0
+          POOR_MAPPING_QUALITY 76
