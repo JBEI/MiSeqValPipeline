@@ -22,8 +22,13 @@ Sequence Validation Pipeline
     * website/seqval.py => Everywhere there is the word 'secret'
 4. Run it!
 
+
 ## Website interface
-To get the website interface running, run `python seqval.py` - The website wil automatically be active at 127.0.0.1:82
+The website wil automatically be active at 127.0.0.1:82 To get the website interface running, run:
+
+```
+python seqval.py
+```
 
 
 ## Command line
