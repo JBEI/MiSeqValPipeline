@@ -4,9 +4,9 @@ Sequence Validation Pipeline
 
 ## Website Interface 
 ### Before Request Submission
-~[Before request submission](images/websitebefore.png)
+~[Before request submission](images/websitestart.png)
 ### After Submission
-~[After request submission](images/websiteafter.png)
+~[After request submission](images/websiteend.png)
 ## HTML page displaying each SubLibrary's call
 ![HTML page with pool cal information](images/html.png)
 ## Types of calls
