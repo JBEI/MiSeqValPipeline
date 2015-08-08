@@ -131,8 +131,8 @@ Note: Everything listed with just `pip` is installed for Python 2.7, since PostP
 1. Take MiSeq files from the SMB server
 2. Create .bam files
 3. Use GATK to generate coverage depth, .vcf, .bed, and call_summary.txt
-4. Make calls and generate summary: IGV.xml, Excel, and HTML 
+4. Make calls and generate summary: IGV.xml, Excel, and HTML
 
-Utilizes modified versions of Joel's and Ernst's Perl and Python scripts, respectively.
+Special thanks to Ernst, Joel, and Oge!
 
 See **Presentation/Presentation.pptx** for more!
