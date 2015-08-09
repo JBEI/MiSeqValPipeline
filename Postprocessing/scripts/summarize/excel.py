@@ -35,16 +35,12 @@ def create_result_workbook(refs,pools,calltable,bestbets,outfile):
       
       cellFill = PatternFill(start_color=result_colors[c['call']], fill_type=fills.FILL_SOLID) 
       ws['B%d' % row].fill = cellFill
-      # ws['B%d' % row].style.fill.fill_type = fills.FILL_SOLID
-      # ws['B%d' % row].style.fill.start_color.index = result_colors[c['call']]
       if c['call'] == 'almost':
         ws['D%d' % row] = c['p1']
         ws['E%d' % row] = c['p2']
         for col in ['C','D','E']:
           cellFill = PatternFill(start_color=result_colors[c['call']], fill_type=fills.FILL_SOLID) 
           ws['%s%d' % (col,row)].fill = cellFill
-          # ws['%s%d' % (col,row)].style.fill.fill_type = fills.FILL_SOLID
-          # ws['%s%d' % (col,row)].style.fill.start_color.index = result_colors[c['call']]
     row += 1
   
   ws = wb.create_sheet()
@@ -62,9 +58,6 @@ def create_result_workbook(refs,pools,calltable,bestbets,outfile):
       cellFont = Font(color=text_colors[c['call']])
       ws['%s%d' % (cols[p],row)].fill = cellFill
       ws['%s%d' % (cols[p],row)].font = cellFont
-      # ws['%s%d' % (cols[p],row)].style.fill.fill_type = fills.FILL_SOLID
-      # ws['%s%d' % (cols[p],row)].style.fill.start_color.index = result_colors[c['call']]
-      # ws['%s%d' % (cols[p],row)].style.font.color.index = text_colors[c['call']]
     row += 1
   
   for pool in pools:
@@ -81,9 +74,6 @@ def create_result_workbook(refs,pools,calltable,bestbets,outfile):
       cellFont = Font(color=text_colors[c['call']])
       ws['B%d' % row].fill = cellFill
       ws['B%d' % row].font = cellFont
-      # ws['B%d' % row].style.fill.fill_type = fills.FILL_SOLID
-      # ws['B%d' % row].style.fill.start_color.index = result_colors[c['call']]
-      # ws['B%d' % row].style.font.color.index = text_colors[c['call']]
       if c['call'] == 'almost':
         ws['D%d' % row] = c['p1']
         ws['E%d' % row] = c['p2']
@@ -92,9 +82,6 @@ def create_result_workbook(refs,pools,calltable,bestbets,outfile):
           cellFont = Font(color=text_colors[c['call']])
           ws['%s%d' % (col,row)].fill = cellFill
           ws['%s%d' % (col,row)].font = cellFont
-          # ws['%s%d' % (col,row)].style.fill.fill_type = fills.FILL_SOLID
-          # ws['%s%d' % (col,row)].style.fill.start_color.index = result_colors[c['call']]
-          # ws['%s%d' % (col,row)].style.font.color.index = text_colors[c['call']]
       row += 1
   
   wb.save(filename=outfile)  
