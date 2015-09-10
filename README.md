@@ -33,7 +33,7 @@ Sequence Validation Pipeline
 
 
 ## Website interface
-The website wil automatically be active at 127.0.0.1:82 To get the website interface running, run:
+The website wil automatically be active at 127.0.0.1:83 To get the website interface running, run:
 
 ```
 python3 seqval.py
