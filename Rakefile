@@ -5,7 +5,7 @@ task :default do
 end
 
 task :setup do
-  cmd = "docker stop $(docker ps -aq) && docker build --tag seqval . && docker run --tty=false --rm -p 8000:8000 -v /home/oge/code/MiSeqValPipeline:/src -v /home/oge/code/MiSeqValPipeline/home:/root  --privileged seqval"
+  cmd = "docker stop $(docker ps -aq) && docker build --tag seqval . && docker run --tty=false --rm -p 8003:80 -v /home/oge/code/MiSeqValPipeline:/src -v /home/oge/code/MiSeqValPipeline/home:/root  --privileged seqval"
   puts cmd
   system(cmd)
 end

@@ -13,6 +13,6 @@ RUN mkdir -p /src
 WORKDIR /src
 VOLUME /src
 
-EXPOSE 80 8000
+EXPOSE 80
 
-CMD cd /src/website && gunicorn -b 127.0.0.1:8000 seqval:app
+CMD cd /src/website && gunicorn -b :80 seqval:app
