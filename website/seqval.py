@@ -190,7 +190,7 @@ if __name__ == '__main__':
 			port=83)
 	if not app.debug:
 		import logging
-		from loggin.handlers import FileHandler
+		from logging.handlers import FileHandler
 		file_handler = FileHandler('log.txt')
 		file_handler.setLevel(logging.WARNING)
 		app.logger.addHandler(file_handler)
