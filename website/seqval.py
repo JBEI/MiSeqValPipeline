@@ -8,13 +8,13 @@ import tempfile
 app = Flask(__name__)
 
 #SMB credentials - SECRET
-username = "secret"
-password = "secret"
+username = os.environ['SMB_USERNAME']
+password = os.environ['SMB_PASSWORD']
 #Specific server information
 myRequestIdentifier = "miseqvalpipeline"
 serverName = "SMB"
 domain = ""
-host = "secret.jbei.org"
+host = "smb.jbei.org"
 port = 139
 sharedFolder = "miseq"
 

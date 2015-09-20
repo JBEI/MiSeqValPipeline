@@ -8,13 +8,13 @@ import urllib.request
 
 class MiSeqServerData(threading.Thread): 
 	#SMB credentials - SECRET
-	username = "secret"
-	password = "secret"
+	username = os.environ['SMB_USERNAME']
+	password = os.environ['SMB_PASSWORD']
 	#Specific server information
 	myRequestIdentifier = "miseqvalpipeline"
 	serverName = "SMB"
 	domain = ""
-	host = "secret.jbei.org"
+	host = "smb.jbei.org"
 	port = 139
 	sharedFolder = "miseq"
 
@@ -44,7 +44,7 @@ class MiSeqServerData(threading.Thread):
 							fastqFiles.append(a.filename)
 							#Now fetch and write fastq.gz files to local machine
 							director = urllib.request.build_opener(SMBHandler)
-							fh = director.open('smb://'+MiSeqServerData.username+':'+MiSeqServerData.password+'@secret.jbei.org/miseq/MiSeqOutput/'+self.mainLibraryFolder+'/Data/Intensities/BaseCalls/'+a.filename).read()
+							fh = director.open('smb://'+MiSeqServerData.username+':'+MiSeqServerData.password+'@smb.jbei.org/miseq/MiSeqOutput/'+self.mainLibraryFolder+'/Data/Intensities/BaseCalls/'+a.filename).read()
 							f = open(self.outputFolder+"/"+a.filename, 'wb')
 							f.write(fh)
 							f.close()

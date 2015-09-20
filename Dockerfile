@@ -15,5 +15,7 @@ WORKDIR /src
 VOLUME /src
 
 EXPOSE 80
+ENV SMB_USERNAME=$SMB_USERNAME
+ENV SMB_PASSWORD=$SMB_PASSWORD
 
 CMD cd /src/website && gunicorn -b :80 seqval:app
