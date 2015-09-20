@@ -1,2 +1,4 @@
 home/
+logs/
+MiSeqValidationResults/
 *.pyc
