@@ -5,7 +5,17 @@ task :default do
 end
 
 task :setup do
-  cmd = "docker stop $(docker ps -aq) && docker build --tag seqval . && docker run --tty=false --rm -p 8003:80 -v /home/oge/code/MiSeqValPipeline:/src -v /home/oge/code/MiSeqValPipeline/home:/root  --privileged seqval"
+  cmd = <<-CMD
+  ([ `docker ps -aq | wc -l` -ne 0 ] && docker stop $(docker ps -aq)) &&
+     docker build --tag seqval . &&
+     docker run --tty=false \
+                   --rm -p 8003:80 \
+                   -v /home/oge/code/MiSeqValPipeline:/src \
+                   -v /home/oge/code/MiSeqValPipeline/home:/root \
+                   --env SMB_USERNAME="${SMB_USERNAME}" \
+                   --env SMB_PASSWORD="${SMB_PASSWORD}" \
+                   --privileged seqval
+CMD
   puts cmd
   system(cmd)
 end

@@ -14,15 +14,14 @@ from email.mime.text import MIMEText
 ''''''''''''''''''''''''''''''
 
 #Paths to folders and tools
-pathToPipeline = "path/To/thisscript" #Path where this script, pipeline.py, is actually being run from
-pathToMiSeqSequenceStorage = pathToPipeline+"/"+"SMBMiSeqData" #Where MiSeq fastq.gz sequences are stored locally
+pathToPipeline = "/src" #Path where this script, pipeline.py, is actually being run from
 #Path to External Tools
 pathToTools = pathToPipeline+"/tools"
 #Picard, BWA, Samtools, GATK libraries
 pathToPicard = pathToTools+"/Picard"
 pathToGATK = pathToTools+"/GATK"
-pathToBWA = pathToTools+"/BWA" #Default: Updated version - If user wants NERSC version, that is automatically set later in the script
-pathToSamtools = pathToTools+"/Samtools" #Default: Updated version
+pathToBWA = "/usr/bin"
+pathToSamtools = "/usr/bin"
 # MiSeqBAMGeneration Tools, Post Processing
 pathToMiSeqBAMGenerationTools = pathToPipeline+"/MiSeqBAMGenerationTools" #Path to ReSeq Tools
 pathToPostProcessing = pathToPipeline+"/Postprocessing"
@@ -93,7 +92,7 @@ parser.add_argument("-e", "--email",
 					dest="email", default="", 
                     help="Email address to be notified when Pipeline is completed")
 parser.add_argument("-l", "--logFile", 
-					dest="logFile", default=pathToPipeline+"/website/logs/logOfPipeline_"+str(timeStamp)+".txt", 
+					dest="logFile", default=pathToPipeline+"/website/logs/logOfPipeline_"+str(timeStamp)+".txt",
                     help="Path to log File for pipeline's output messages")
 parser.add_argument('-n', "--nerscVersion",
 					dest='nerscVersion', default=False, 
