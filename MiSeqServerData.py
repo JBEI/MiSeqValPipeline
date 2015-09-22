@@ -1,5 +1,6 @@
 import threading
 import os, sys
+import pdb
 from smb.SMBConnection import SMBConnection
 from smb.SMBHandler import SMBHandler
 from smb.base import NotConnectedError, NotReadyError, SMBTimeout, SharedFile
