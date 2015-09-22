@@ -40,36 +40,36 @@ timeStamp = int(time.time())
 
 #Formatting
 def log(file, msg):
-	file.write(msg+"\n")
-	print(msg+"\n")
+  file.write(msg+"\n")
+  print(msg+"\n")
 commands = [] #List of commands to set up directories and files
 def doCommands(commands, writeOutput, logFile):
-	startTime = time.time()
-	for c in commands:
-		p = subprocess.Popen(c, stdout=subprocess.PIPE)
-		if (writeOutput):
-			for line in p.stdout: log(logFile, line.decode())
-	endTime = time.time()
-	log(l, str(endTime-startTime)+" seconds")
+  startTime = time.time()
+  for c in commands:
+    p = subprocess.Popen(c, stdout=subprocess.PIPE)
+    if (writeOutput):
+        for line in p.stdout: log(logFile, line.decode())
+  endTime = time.time()
+  log(l, str(endTime-startTime)+" seconds")
 #File commands
 def mkdir(folder):
-	os.makedirs(folder, exist_ok=True)
+    os.makedirs(folder, exist_ok=True)
 def rmdir(path):
-	shutil.rmtree(path)
+    shutil.rmtree(path)
 def cd(path):
-	os.chdir(path)
+    os.chdir(path)
 #Send email
 def sendEmail(email, header, content):
-	msg = MIMEText(content)
-	# me == the sender's email address
-	# you == the recipient's email address
-	msg['Subject'] = str(header)
-	msg['From'] = 'MiSeq Validation Pipeline'
-	msg['To'] = email
-	# Send the message via our own SMTP server.
-	s = smtplib.SMTP('localhost')
-	s.send_message(msg)
-	s.quit()
+  msg = MIMEText(content)
+  # me == the sender's email address
+  # you == the recipient's email address
+  msg['Subject'] = str(header)
+  msg['From'] = 'MiSeq Validation Pipeline'
+  msg['To'] = email
+  # Send the message via our own SMTP server.
+  s = smtplib.SMTP('localhost')
+  s.send_message(msg)
+  s.quit()
 
 
 ########################################################################################
@@ -79,25 +79,25 @@ def sendEmail(email, header, content):
 
 parser = ArgumentParser()
 parser.add_argument("-m", "--mainLibrary", 
-					dest="mainLibrary", default="", 
-                    help="Name of Folder on MiSeq Machine for the Run you want analyzed, e.g. 141212_M03257_0002_000000000-AC28N")
+        dest="mainLibrary", default="",
+        help="Name of Folder on MiSeq Machine for the Run you want analyzed, e.g. 141212_M03257_0002_000000000-AC28N")
 parser.add_argument("-s", "--subLibraries",
-					nargs='+',
-                    dest="subLibraries", default=[],
-                    help="Sample IDs of pools you want validated, e.g. WT_1 WT_2 WT_3 32_1")
+        nargs='+',
+        dest="subLibraries", default=[],
+        help="Sample IDs of pools you want validated, e.g. WT_1 WT_2 WT_3 32_1")
 parser.add_argument("-r", "--referenceSequences", 
-					nargs='+',
-					dest="referenceSequences", default=[], 
-                    help="Name of FASTA file where reference sequences are stored")
-parser.add_argument("-e", "--email", 
-					dest="email", default="", 
-                    help="Email address to be notified when Pipeline is completed")
-parser.add_argument("-l", "--logFile", 
-					dest="logFile", default=pathToPipeline+"/website/logs/logOfPipeline_"+str(timeStamp)+".txt",
-                    help="Path to log File for pipeline's output messages")
+        nargs='+',
+        dest="referenceSequences", default=[],
+        help="Name of FASTA file where reference sequences are stored")
+parser.add_argument("-e", "--email",
+        dest="email", default="",
+        help="Email address to be notified when Pipeline is completed")
+parser.add_argument("-l", "--logFile",
+        dest="logFile", default=pathToPipeline+"/website/logs/logOfPipeline_"+str(timeStamp)+".txt",
+        help="Path to log File for pipeline's output messages")
 parser.add_argument('-n', "--nerscVersion",
-					dest='nerscVersion', default=False, 
-					action='store_true')
+        dest='nerscVersion', default=False,
+        action='store_true')
 args = parser.parse_args()
 #Assign command line args to local variables
 mainLibrary = args.mainLibrary
@@ -109,8 +109,8 @@ nerscVersion = args.nerscVersion
 
 #NERSC Version of tools
 if nerscVersion:
-	pathToBWA = pathToTools+"/BWA-NERSC_version"
-	pathToSamtools = pathToTools+"/Samtools-NERSC_version"
+  pathToBWA = pathToTools+"/BWA-NERSC_version"
+  pathToSamtools = pathToTools+"/Samtools-NERSC_version"
 
 #Create PATH
 pathToMainLibrary = pathToPipeline+"/MiSeqValidationResults/"+mainLibrary #mainLibrary, where all subLibrary folders are stored
@@ -141,9 +141,9 @@ log(l, "")
 
 #Create Project Directory
 if (os.path.isdir(pathToMainLibrary)):
- 	#Folder already exists for this project, delete it and start over
- 	log(l, "Folder already exists for this library. Deleting...")
- 	rmdir(pathToMainLibrary)
+  #Folder already exists for this project, delete it and start over
+  log(l, "Folder already exists for this library. Deleting...")
+  rmdir(pathToMainLibrary)
 log(l, "Folder created for "+mainLibrary)
 mkdir(pathToMainLibrary)
 cd(pathToMainLibrary)
@@ -158,21 +158,18 @@ mkdir("ref")
 
 #Write files from SMB Server
 log(l, "Getting sublibraries' sequence data from SMB...")
-MiSeqServerThreads = []
 for index, subLibraryID in enumerate(subLibraries):
-	# Create new threads
-	MiSeqServerThreads.append(MiSeqServerData(index, mainLibrary, subLibraryID, pathToMiSeqSequenceStorage))
-	#Start thread
-	MiSeqServerThreads[index].start()
-# Wait for all threads to complete
-for t in MiSeqServerThreads:
-	t.join()
-#Write metadata to libraries.info
-log(l, "Writing libraries.info file...")
-f = open(pathToLibrariesInfo, "w")
-for t in MiSeqServerThreads:
-	f.write(t.metadata)
-f.close()
+  # We're not actually multithreading here
+  thread = MiSeqServerData(index,
+      mainLibrary,
+      subLibraryID,
+      pathToMiSeqSequenceStorage)
+  thread.run()
+  ##Write metadata to libraries.info
+  log(l, "Writing libraries.info file...")
+  f = open(pathToLibrariesInfo, "w")
+  f.write(thread.metadata)
+  f.close()
 
 
 ########################################################################################
@@ -190,28 +187,28 @@ f.close()
 log(l, "Getting reference sequence data from ICE...")
 ICEServerThreads = []
 for index, sequenceName in enumerate(referenceSequences):
-	# Create new threads
-	ICEServerThreads.append(ICEServerData(index, sequenceName+".fasta"))
-	#Start thread
-	ICEServerThreads[index].start()
+  # Create new threads
+  ICEServerThreads.append(ICEServerData(index, sequenceName+".fasta"))
+  #Start thread
+  ICEServerThreads[index].start()
 # Wait for all threads to complete
 for t in ICEServerThreads:
-	t.join()
+    t.join()
 #Write to reference.fasta
 f = open(pathToReferenceFASTA, "w")
 for t in ICEServerThreads:
-	f.write(t.sequence)
+    f.write(t.sequence)
 f.close()
 
 
 ''' Resulting directory structure:
-	MiSeqOutput/
-		seq1_r1_001.fastq.gz
-		seq1_r2_001.fastq.gz
-	mainLibrary/
-		libraries.info
-		ref/
-			references.fasta (Holds FASTA file with all reference sequences)
+  MiSeqOutput/
+    seq1_r1_001.fastq.gz
+    seq1_r2_001.fastq.gz
+  mainLibrary/
+    libraries.info
+    ref/
+      references.fasta (Holds FASTA file with all reference sequences)
 '''
 
 
@@ -227,18 +224,18 @@ doCommands(commands, True, l)
 commands = []
 
 ''' Resulting directory structure:
-		mainLibrary/
-			libraries.info
-			ref/
-				references.fasta
-				references.fasta.amb
-				references.fasta.ann
-				references.fasta.bak
-				references.fasta.bwt
-				references.fasta.pac
-				references.fasta.sa
-				references.fasta.fai
-				references.dict
+    mainLibrary/
+      libraries.info
+      ref/
+        references.fasta
+        references.fasta.amb
+        references.fasta.ann
+        references.fasta.bak
+        references.fasta.bwt
+        references.fasta.pac
+        references.fasta.sa
+        references.fasta.fai
+        references.dict
 '''
 
 #Create directories for each sublibraries
@@ -248,25 +245,25 @@ doCommands(commands, True, l)
 commands = []
 
 ''' Resulting directory structure:
-		mainLibrary/
-			libraries.info
-			libraries.info.bak.1
-			ref/
-				references.fasta
-				references.fasta.amb
-				references.fasta.ann
-				references.fasta.bak
-				references.fasta.bwt
-				references.fasta.pac
-				references.fasta.sa
-				references.fasta.fai
-				references.dict
-			projID_deliveryID_libName/
-				bwa_dir/
-					config.yml
-				fastq_dir/
-					symlink to seq1_r1_001.fastq.gz
-					symlink to seq1_r2_001.fastq.gz
+    mainLibrary/
+      libraries.info
+      libraries.info.bak.1
+      ref/
+        references.fasta
+        references.fasta.amb
+        references.fasta.ann
+        references.fasta.bak
+        references.fasta.bwt
+        references.fasta.pac
+        references.fasta.sa
+        references.fasta.fai
+        references.dict
+      projID_deliveryID_libName/
+        bwa_dir/
+          config.yml
+        fastq_dir/
+          symlink to seq1_r1_001.fastq.gz
+          symlink to seq1_r2_001.fastq.gz
 '''
 
 #Slice sequences
@@ -275,30 +272,30 @@ commands.append(["perl", pathToMiSeqBAMGenerationTools+"/beta_slice_fq.pl", "-co
 doCommands(commands, True, l)
 
 ''' Resulting directory structure:
-		mainLibrary/
-			libraries.info
-			libraries.info.bak.1
-			ref/
-				references.fasta
-				references.fasta.amb
-				references.fasta.ann
-				references.fasta.bak
-				references.fasta.bwt
-				references.fasta.pac
-				references.fasta.sa
-				references.fasta.fai
-				references.dict
-			projID_deliveryID_libName/
-				bwa_dir/
-					config.yml
-					bam_dir/
-						EMPTY
-					fastq_dir/
-						se-32-2_S8_L001_R1_001@1.fq.gz
-						se-32-2_S8_L001_R2_001@1.fq.gz
-				fastq_dir/
-					symlink to seq1_r1_001.fastq.gz
- 					symlink to seq1_r2_001.fastq.gz
+    mainLibrary/
+      libraries.info
+      libraries.info.bak.1
+      ref/
+        references.fasta
+        references.fasta.amb
+        references.fasta.ann
+        references.fasta.bak
+        references.fasta.bwt
+        references.fasta.pac
+        references.fasta.sa
+        references.fasta.fai
+        references.dict
+      projID_deliveryID_libName/
+        bwa_dir/
+          config.yml
+          bam_dir/
+            EMPTY
+          fastq_dir/
+            se-32-2_S8_L001_R1_001@1.fq.gz
+            se-32-2_S8_L001_R2_001@1.fq.gz
+        fastq_dir/
+          symlink to seq1_r1_001.fastq.gz
+          symlink to seq1_r2_001.fastq.gz
 '''
 
 #Align sliced sequences to generate .bam, .bam.bai files
@@ -319,8 +316,8 @@ f = open("config.xml", "w")
 f.write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><SBAnalysis>')
 f.write('<analysis name="'+pathToMainLibrary+'" reference="'+pathToReferenceFASTA+'" location="'+pathToPipeline+'">')
 for index, subLibraryID in enumerate(subLibraries):
-	poolName = subLibraryID+'_libName'
-	f.write('<pool name="'+poolName+'" samples="'+poolName+'"><job name="bwa_dir" protocol="bwa_dir"/></pool>')
+  poolName = subLibraryID+'_libName'
+  f.write('<pool name="'+poolName+'" samples="'+poolName+'"><job name="bwa_dir" protocol="bwa_dir"/></pool>')
 f.write('</analysis></SBAnalysis>')
 f.close()
 #Postprocessing.sh
