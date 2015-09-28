@@ -2,6 +2,7 @@
 
 curl -H "Content-Type: application/json" \
   -X POST \
-  -d  '{email: "oge", password: "scot!syeP6"}' \
-  https://registry.jbei.org/rest/accesstoken | \
+  -k \
+  -d  "{email: 'Administrator', password: 'Administrator'}" \
+  https://localhost:8443/rest/accesstoken | \
   jq -r '.sessionId'
