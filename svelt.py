@@ -248,11 +248,10 @@ def get_constructs(filename):
     return constructs
 
 
-def set_up(type, path, filename, out_name):
+def set_up(type, path, constructs, out_name):
     # parse the vcf and bed files, then create the shell script to create the bam and bai files
 
     print("Setting up svelt for "+out_name)
-    constructs = get_constructs(filename)
     if len(constructs) >0:
         create_bed(type, path, out_name, constructs)
         create_vcf(type, path, out_name, constructs)
@@ -272,16 +271,18 @@ def main():
     need to use modules for biopython and smatools
     '''
     if len(sys.argv) < 5:
-        print("Usage: python svelt.py PB path/to/analysis/directory file.csv output_name")
+        print("Usage: python svelt.py PB path/to/analysis/directory clone pool output_name")
     else:
         type = sys.argv[1]
         path = sys.argv[2]
-        name = sys.argv[3]
-        out_name = sys.argv[4]
+        clone = sys.argv[3]
+        pool = sys.argv[4]
+        out_name = sys.argv[5]
+
         if (type != "PB") and (type != "MS"):
             print("Only PacBio (PB) or MiSeq (MS) is currently supported")
         else:
-            set_up(type, path, name, out_name)
+            set_up(type, path, [{'clone': clone, 'pool': pool}], out_name)
 
 
 if __name__ == "__main__":
