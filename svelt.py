@@ -1,6 +1,7 @@
 __author__ = 'simi'
 #!/usr/bin/env python
 import csv
+import glob
 import sys
 import os
 from Bio import SeqIO
@@ -49,8 +50,13 @@ def create_bam(type, path, out_name, constructs):
         cmd = 'samtools view -h -b '+bam+' "'+clone+'" > '+mini_bam
         # run the command
         os.system(cmd)
-    # now that we have all our mini bam files, merge them
-    merge_cmd = "samtools merge "+out_name+".bam "+" ".join(merge_names)
+
+
+    if len(constructs) == 1:
+       merge_cmd = "mv in1.bam "+out_name+".bam"
+    else:
+        merge_cmd = "samtools merge "+out_name+".bam "+" ".join(merge_names)
+
     print("merge command: "+merge_cmd)
     os.system(merge_cmd)
     # now create the bai - index
@@ -163,6 +169,9 @@ def get_fasta_path(type, path):
     if (type == "PB"):
          f_path = path+"/references/seqs/sequence/seqs.fasta"
          return f_path
+    elif (type == "MS"):
+        f_path = glob.glob("ref/*.fasta")[0]
+        return f_path
     else:
          print("Type: "+type+" is not currently supported.")
 
@@ -173,6 +182,9 @@ def get_bam_path(type, path, pool):
          # for pac bio analyses, this file <path>/<pool>/roi/aligned_reads.bam
          bam_path = path+"/"+pool+"/roi/aligned_reads.bam"
          return bam_path
+     elif (type == "MS"):
+        bam_path = path+"/bwa_dir/aligned_reads.bam"
+        return bam_path
      else:
          print("Type: "+type+" is not currently supported.")
 
@@ -190,6 +202,9 @@ def read_vcf(type, path, pool):
         # for pac bio analyses, this file <path>/roi/<pool>/callable.bed
         vcf_file = open(path+"/"+pool+"/roi/snps.gatk.vcf", "rU")
         return vcf_file
+    elif (type == "MS"):
+        vcf_file = open(path+"/bwa_dir/snps.gatk.vcf", "rU")
+        return vcf_file
     else:
         print("Type: "+type+" is not currently supported.")
 
@@ -205,8 +220,12 @@ def read_bed(type, path, pool):
         # for pac bio analyses, this file <path>/roi/<pool>/callable.bed
         bed_file = open(path+"/"+pool+"/roi/callable.bed", "rU")
         return bed_file
-    else:
-        print("Type: "+type+" is not currently supported.")
+    elif (type == "MS"):
+        bed_file = open(path+"/bwa_dir/callable.bed", "rU")
+        return bed_file
+    else :
+         print("Type: "+type+" is not currently supported.")
+
 
 
 def get_constructs(filename):
@@ -259,8 +278,8 @@ def main():
         path = sys.argv[2]
         name = sys.argv[3]
         out_name = sys.argv[4]
-        if type != "PB":
-            print("Only PacBio (PB) is currently supported")
+        if (type != "PB") and (type != "MS"):
+            print("Only PacBio (PB) or MiSeq (MS) is currently supported")
         else:
             set_up(type, path, name, out_name)
 
