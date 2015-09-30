@@ -20,11 +20,12 @@ def score(index, clone, pool)
   index[clone][pool]['display']
 end
 
-dir = ARGV[0]
-clone = ARGV[1]
-pool = ARGV[2]
-index = JSON.parse(File.read(ARGV[3]))
+index = JSON.parse(File.read(ARGV[0]))
 
-puts "#{svelt_cmd(dir, clone, pool)} && \
-  #{call_cmd(dir, call(index, clone, pool))} && \
-  #{score_cmd(dir, score(index, clone, pool))}"
+index.keys.each do |clone|
+  index[clone].keys.each do |pool|
+    puts "#{svelt_cmd(pool, clone, pool)} && \
+      #{call_cmd(pool, call(index, clone, pool))} && \
+      #{score_cmd(pool, score(index, clone, pool))}"
+  end
+end
