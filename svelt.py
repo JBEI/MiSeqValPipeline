@@ -60,7 +60,7 @@ def create_bam(type, path, out_name, constructs):
     print("merge command: "+merge_cmd)
     os.system(merge_cmd)
     # now create the bai - index
-    index_cmd = "samtools index -b "+out_name+".bam"
+    index_cmd = "samtools index "+out_name+".bam"
     print("index command: "+index_cmd)
     os.system(index_cmd)
     print("Done creating new bam and bai files")
