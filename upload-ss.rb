@@ -31,5 +31,5 @@ def shell(command)
 end
 
 shell "curl --form \"file=@#{options[:file]}\" \
-  -kv -H 'X-ICE-Authentication-SessionId: #{options[:sessionid]}' \
+  -k -H 'X-ICE-Authentication-SessionId: #{options[:sessionid]}' \
   #{options[:host]}/rest/parts/#{options[:entryid]}/shotgunsequences"
