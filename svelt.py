@@ -2,6 +2,7 @@ __author__ = 'simi'
 #!/usr/bin/env python
 import csv
 import glob
+from shutil import copyfile
 import sys
 import os
 from Bio import SeqIO
@@ -28,7 +29,6 @@ def create_fasta(type, path, out_name, constructs):
         new_fasta.write(">"+clone+"\n"+seq+"\n")
     new_fasta.close()
     print("Done creating new reference fasta file")
-
 
 def create_bam(type, path, out_name, constructs):
     print("creating new bam and bai files...")
@@ -68,62 +68,16 @@ def create_bam(type, path, out_name, constructs):
 
 def create_vcf(type, path, outname, constructs):
     print("creating new vcf file...")
-    # create a new vcf
-    new_vcf = open(outname+".vcf", "w+")
-    # so keep track of the pool files that are open - only works if clones in csv file are in same order as the analysis
-    open_pool_files = {}
-    #the first one opened will be the one we copy the header from, and get the contig ID lines for each construct
-    first = True
-    for con in constructs:
-        pool = con['pool']
-        clone = con['clone']
-        print("clone: "+clone+", pool: "+pool)
-        # see if pool file is already open
-        if not first and  (pool in open_pool_files):
-            pool_file = open_pool_files[pool]
-        else:
-            # get pool file
-            pool_file = read_vcf(type, path, pool)
-            # add pool file to open pool files dict
-            open_pool_files[pool]= pool_file
-        for line in iter(pool_file):
-            if first and line.startswith("##"):
-                if line.startswith("##contig"):
-                    first = False
-                else:
-                    new_vcf.write(line)
-            if line.startswith("##contig=<ID="+clone):
-                new_vcf.write(line)
-                break
-    # now we will add our ##reference line and #Chrom line -
-    # TODO make sure that these are relatively generic for our uses
-    new_vcf.write("##reference=file://"+path+"/"+outname+".fasta\n")
-    new_vcf.write("#CHROM   POS ID  REF ALT QUAL    FILTER  INFO    FORMAT  c100843992550000001823187012311500\n")
-    # now loop through the constructs list again, this time adding any line that starts with the clone name
-    # also, replace any white space in the line with a tab
-    print("second loop through constructs...")
-    for con in constructs:
-        pool = con['pool']
-        clone = con['clone']
-        print("clone: "+clone+", pool: "+pool)
-        # the pool file will already be open from the first step, but will need to reset the cursor
-        pool_file = open_pool_files[pool]
-        #reset read start
-        pool_file.seek(0)
-        for line in iter(pool_file):
-            if line.startswith(clone):
-                # replace white spaces with tabs
-                '\t'.join(line.split())
-                new_vcf.write(line)
-                print("writing: "+line)
-    # now close all the files
-    # close all the open vcf files
-    for f in open_pool_files.values():
-        f.close()
-    #close new bed
-    new_vcf.close()
-    print("Done creating new vcf file")
 
+    for con in constructs:
+        pool = con['pool']
+        clone = con['clone']
+        print("clone: "+clone+", pool: "+pool)
+        infilename = get_vcf_path(type, path, pool)
+        outfilename = outname+".vcf"
+        copyfile(infilename, outfilename)
+
+    print("Done creating new vcf file")
 
 def create_bed(type, path, outname, constructs):
     # parse the lines needed from each bed, for the correct pool for each construct
@@ -158,8 +112,8 @@ def create_bed(type, path, outname, constructs):
         f.close()
     # close new bed
     new_bed.close()
-    print("Done creating new bed file")
 
+    print("Done creating new bed file")
 
 ##### utility functions ######
 
@@ -189,21 +143,12 @@ def get_bam_path(type, path, pool):
          print("Type: "+type+" is not currently supported.")
 
 
-def read_vcf(type, path, pool):
-    '''
-    Opens the vcf file - similar to red_bed
-    :param type:
-    :param path:
-    :param pool:
-    :return:
-    '''
-    print("getting vcf file for pool: "+pool)
+def get_vcf_path(type, path, pool):
     if (type == "PB"):
-        # for pac bio analyses, this file <path>/roi/<pool>/callable.bed
-        vcf_file = open(path+"/"+pool+"/roi/snps.gatk.vcf", "rU")
+        vcf_file = path+"/"+pool+"/roi/snps.gatk.vcf"
         return vcf_file
     elif (type == "MS"):
-        vcf_file = open(path+"/bwa_dir/snps.gatk.vcf", "rU")
+        vcf_file = path+"/bwa_dir/snps.gatk.vcf"
         return vcf_file
     else:
         print("Type: "+type+" is not currently supported.")
